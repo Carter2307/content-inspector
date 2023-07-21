@@ -1,0 +1,10 @@
+.accordion {
+}
+
+.accordion[accordion-open="false"] {
+	display: none;
+}
+
+.accordion[accordion-open="true"] {
+	display: flex;
+}

@@ -1,0 +1,13 @@
+.select {
+}
+
+.select-input {
+	position: relative;
+}
+
+.select-icon {
+	position: absolute;
+	right: 0.5rem;
+	top: 50%;
+	transform: translateY(-50%);
+}
