@@ -9,6 +9,10 @@ export default function Editor({ node }) {
 	let nodeStyle = getNodeStyle(node);
 	let [style, setStyle] = useState(nodeStyle);
 
+	if (!node) return;
+
+	console.log("editor as render", node, nodeStyle);
+
 	function onFontChange(value) {
 		setStyle({ ...style, fontFamily: value });
 	}

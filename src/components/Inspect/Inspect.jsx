@@ -5,52 +5,56 @@ import css from "./inspect.module.css";
 
 export default function Inspect({ disabled, children }) {
 	let [isInspected, setIsInspected] = React.useState(false);
-	let [nodeAsRef, setNodeAsRef] = React.useState(undefined);
+	let node = React.useRef(null);
+	let [currentNode, setCurrentNode] = React.useState(node);
+	let inspector = React.useRef(null);
 
 	if (disabled) {
 		return <>{children}</>;
 	}
 
 	function mouseOverHandler(e) {
-		//e.stopPropagation();
-		const nodes = document.elementsFromPoint(e.clientX, e.clientY);
-		setNodeAsRef(e.target);
+		inspector.current = e.currentTarget;
+		const childNodes = [...inspector.current.querySelectorAll("*")];
+		const target = e.target;
 
-		nodes.forEach((node) => {
-			if (node.nodeName === "BODY" || node.nodeName === "HTML" || node.getAttribute("id") == "root") return;
+		childNodes.forEach((node) => {
 			node.classList.add(css.node);
+			node.onmouseover = (event) => {
+				event.target.classList.add(css["node-hovered"]);
+			};
+
+			node.onmouseout = (event) => {
+				event.target.classList.remove(css["node-hovered"]);
+			};
 		});
+
+		target.onclick = (event) => {
+			resetActiveNode(childNodes);
+			target.classList.add(css["node-actived"]);
+			node.current = event.target;
+			setCurrentNode(target);
+			setIsInspected(true);
+		};
 	}
 
-	nodeAsRef.onclick = (e) => {
-		e.stopPropagation();
-		nodeAsRef.classList.add(css["node-actived"]);
-		inspectSize(node);
-		setIsInspected(true);
-	};
-
-	nodeAsRef.onmouseover = (e) => {
-		e.stopPropagation();
-		nodeAsRef.classList.add(css["node-hovered"]);
-	};
-
-	nodeAsRef.onmouseleave = (e) => {
-		e.stopPropagation();
-		nodeAsRef.classList.remove(css["node-hovered"]);
-	};
+	function resetActiveNode(nodes) {
+		nodes.forEach((node) => node.classList.remove(css["node-actived"]));
+	}
 
 	return (
-		<>
-			<span onMouseOver={mouseOverHandler} className="inspector">
+		<React.Fragment>
+			<span onMouseOver={mouseOverHandler} ref={inspector} className={css.inspector}>
 				{children}
 			</span>
-			{isInspected && <Editor node={nodeAsRef}></Editor>}
-		</>
+			{isInspected && <Editor node={currentNode}></Editor>}
+		</React.Fragment>
 	);
 }
 
-function uninspect() {}
-
+function uninspect(node) {
+	console.lgo(node);
+}
 function inspectSize(node) {
 	const gap = 16;
 	node.setAttribute("node-inspector-active", "");
@@ -69,4 +73,27 @@ function createMarker(x, y, value) {
 	marker.style.left = x + "px";
 	marker.style.top = y + "px";
 	document.body.appendChild(marker);
+}
+
+function ex() {
+	inspector.current = e.currentTarget;
+	setPreviousNode((prev) => {
+		return document.elementFromPoint(e.clientX, e.clientY);
+	});
+	const target = e.target;
+	const childNodes = [...inspector.current.querySelectorAll("*")];
+
+	//childNodes.forEach((child) => child.classList.add(css.node));
+
+	target.classList.add(css.node);
+	target.onclick = (event) => {
+		node.current = event.target;
+		if (previousNode) {
+			previousNode.classList.remove(css["node-actived"]);
+		}
+		if (previousNode === node.current) return;
+		console.log(node.current, target);
+
+		target.classList.add(css["node-actived"]);
+	};
 }

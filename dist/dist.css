@@ -36,15 +36,17 @@ input {
 }
 
 /* src/components/Inspect/inspect.module.css */
+.inspect_module_inspector {
+}
 .inspect_module_node {
   position: relative;
   user-select: none;
 }
-.inspect_module_node.inspect_module_node-hovered::after {
-  border-color: blue;
+.inspect_module_node.inspect_module_node-hovered:hover::after {
+  background-color: rgb(225, 244, 255);
 }
 .inspect_module_node.inspect_module_node-actived::after {
-  border: 2px solid blue;
+  background-color: rgb(184, 230, 255);
 }
 .inspect_module_node::after {
   content: "";
@@ -54,7 +56,6 @@ input {
   left: 0;
   top: 0;
   z-index: -1;
-  border: 1px solid transparent;
 }
 .inspect_module_marker {
   padding: 4px 6px;

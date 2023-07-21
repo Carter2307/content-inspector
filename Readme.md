@@ -1,1 +1,1 @@
-Inspect, Modfied style of dom element
+Inspect, Modified style of dom element

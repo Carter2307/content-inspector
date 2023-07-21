@@ -328,7 +328,7 @@
               try {
                 testStringCoercion(value);
                 return false;
-              } catch (e) {
+              } catch (e2) {
                 return true;
               }
             }
@@ -1101,7 +1101,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState4(initialState) {
+          function useState3(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1109,11 +1109,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef2(initialValue) {
+          function useRef(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect2(create, deps) {
+          function useEffect(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1895,15 +1895,15 @@
           exports.useContext = useContext;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect2;
+          exports.useEffect = useEffect;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect;
           exports.useLayoutEffect = useLayoutEffect;
           exports.useMemo = useMemo;
           exports.useReducer = useReducer;
-          exports.useRef = useRef2;
-          exports.useState = useState4;
+          exports.useRef = useRef;
+          exports.useState = useState3;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -2518,7 +2518,7 @@
               try {
                 testStringCoercion(value);
                 return false;
-              } catch (e) {
+              } catch (e2) {
                 return true;
               }
             }
@@ -3832,7 +3832,7 @@
             }
             try {
               return doc.activeElement || doc.body;
-            } catch (e) {
+            } catch (e2) {
               return doc.body;
             }
           }
@@ -5558,11 +5558,11 @@
               });
               window.addEventListener("test", options, options);
               window.removeEventListener("test", options, options);
-            } catch (e) {
+            } catch (e2) {
               passiveBrowserEventsSupported = false;
             }
           }
-          function invokeGuardedCallbackProd(name, func, context, a, b, c, d, e, f) {
+          function invokeGuardedCallbackProd(name, func, context, a, b, c, d, e2, f) {
             var funcArgs = Array.prototype.slice.call(arguments, 3);
             try {
               func.apply(context, funcArgs);
@@ -5574,7 +5574,7 @@
           {
             if (typeof window !== "undefined" && typeof window.dispatchEvent === "function" && typeof document !== "undefined" && typeof document.createEvent === "function") {
               var fakeNode = document.createElement("react");
-              invokeGuardedCallbackImpl = function invokeGuardedCallbackDev(name, func, context, a, b, c, d, e, f) {
+              invokeGuardedCallbackImpl = function invokeGuardedCallbackDev(name, func, context, a, b, c, d, e2, f) {
                 if (typeof document === "undefined" || document === null) {
                   throw new Error("The `document` global was defined when React was initialized, but is not defined anymore. This can happen in a test environment if a component schedules an update from an asynchronous callback, but the test has already finished running. To solve this, you can either unmount the component at the end of your test (and ensure that any asynchronous operations get canceled in `componentWillUnmount`), or you can change the test itself to be asynchronous.");
                 }
@@ -5649,12 +5649,12 @@
               caughtError = error2;
             }
           };
-          function invokeGuardedCallback(name, func, context, a, b, c, d, e, f) {
+          function invokeGuardedCallback(name, func, context, a, b, c, d, e2, f) {
             hasError = false;
             caughtError = null;
             invokeGuardedCallbackImpl$1.apply(reporter, arguments);
           }
-          function invokeGuardedCallbackAndCatchFirstError(name, func, context, a, b, c, d, e, f) {
+          function invokeGuardedCallbackAndCatchFirstError(name, func, context, a, b, c, d, e2, f) {
             invokeGuardedCallback.apply(this, arguments);
             if (hasError) {
               var error2 = clearCaughtError();
@@ -8463,7 +8463,7 @@
             try {
               anchorNode.nodeType;
               focusNode.nodeType;
-            } catch (e) {
+            } catch (e2) {
               return null;
             }
             return getModernOffsetsFromPoints(outerNode, anchorNode, anchorOffset, focusNode, focusOffset);
@@ -15959,9 +15959,9 @@
               } else {
                 console["error"](error2);
               }
-            } catch (e) {
+            } catch (e2) {
               setTimeout(function() {
-                throw e;
+                throw e2;
               });
             }
           }
@@ -22093,7 +22093,7 @@
               var nonExtensibleObject = Object.preventExtensions({});
               /* @__PURE__ */ new Map([[nonExtensibleObject, null]]);
               /* @__PURE__ */ new Set([nonExtensibleObject]);
-            } catch (e) {
+            } catch (e2) {
               hasBadMapPolyfill = true;
             }
           }
@@ -23548,8 +23548,8 @@
   // src/components/Editor/Select/Select.jsx
   function Select({ id, name, options, onchangeHandler }) {
     const ops = options.map((option, index) => /* @__PURE__ */ import_react.default.createElement(SelectOption, { key: index, value: option }));
-    function onchange(e) {
-      onchangeHandler(e.target.value);
+    function onchange(e2) {
+      onchangeHandler(e2.target.value);
     }
     return /* @__PURE__ */ import_react.default.createElement("div", { className: select_module_default.select }, /* @__PURE__ */ import_react.default.createElement("select", { className: select_module_default["Select-input"], name, id, onChange: onchange }, ops), /* @__PURE__ */ import_react.default.createElement("span", { className: select_module_default["select-icon"] }, /* @__PURE__ */ import_react.default.createElement("i", { className: "ri-arrow-drop-down-fill" })));
   }
@@ -23582,8 +23582,8 @@
 
   // src/components/Editor/Toggler/Toggler.jsx
   function Toggler({ options, handler }) {
-    function onclickHandler(e) {
-      handler(e.currentTarget.value);
+    function onclickHandler(e2) {
+      handler(e2.currentTarget.value);
     }
     return /* @__PURE__ */ import_react2.default.createElement("div", { className: toggler_module_default.toggler }, options && options.map((option, index) => /* @__PURE__ */ import_react2.default.createElement(TogglerOption, { key: index, value: option.value, label: option.label, onclick: onclickHandler })));
   }
@@ -23602,7 +23602,7 @@
   // src/components/Editor/Accordion/Accordion.jsx
   function Accordion({ label, open, children }) {
     let [state, setState] = (0, import_react3.useState)(open);
-    function onclick(e) {
+    function onclick(e2) {
       setState(String(!state));
     }
     return /* @__PURE__ */ import_react3.default.createElement("div", { className: accordion_module_default.accordion, "accordion-open": state, onClick: onclick }, /* @__PURE__ */ import_react3.default.createElement("div", { className: accordion_module_default["accordion-header"] }, /* @__PURE__ */ import_react3.default.createElement("span", { className: accordion_module_default["accordion-label"] }, label), /* @__PURE__ */ import_react3.default.createElement("span", { className: accordion_module_default["accordion-icon"] }, /* @__PURE__ */ import_react3.default.createElement("i", { className: "ri-arrow-drop-down-fill" }))), /* @__PURE__ */ import_react3.default.createElement("div", { className: accordion_module_default["accordion-body"] }, children));
@@ -23621,8 +23621,8 @@
 
   // src/components/Editor/Inputs/Number.jsx
   function Number2({ id, step, defaultValue, handler }) {
-    function onchange(e) {
-      handler(e.target.value);
+    function onchange(e2) {
+      handler(e2.target.value);
     }
     return /* @__PURE__ */ import_react4.default.createElement("input", { className: input_module_default.inputNumber, type: "number", step, id, value: defaultValue, onChange: onchange });
   }
@@ -23658,6 +23658,9 @@
   function Editor({ node: node2 }) {
     let nodeStyle = getNodeStyle(node2);
     let [style, setStyle] = (0, import_react7.useState)(nodeStyle);
+    if (!node2)
+      return;
+    console.log("editor as render", node2, nodeStyle);
     function onFontChange(value) {
       setStyle(__spreadProps(__spreadValues({}, style), { fontFamily: value }));
     }
@@ -23697,6 +23700,7 @@
 
   // src/components/Inspect/inspect.module.css
   var inspect_module_default = {
+    inspector: "inspect_module_inspector",
     node: "inspect_module_node",
     "node-hovered": "inspect_module_node-hovered",
     "node-actived": "inspect_module_node-actived",
@@ -23705,52 +23709,38 @@
 
   // src/components/Inspect/Inspect.jsx
   function Inspect({ disabled, children }) {
-    let [isInspected, setIsInspected] = (0, import_react8.useState)(false);
-    let [nodeAsRef, setNodeAsRef] = (0, import_react8.useState)(void 0);
+    let [isInspected, setIsInspected] = import_react8.default.useState(false);
+    let node2 = import_react8.default.useRef(null);
+    let [currentNode, setCurrentNode] = import_react8.default.useState(node2);
+    let inspector2 = import_react8.default.useRef(null);
     if (disabled) {
       return /* @__PURE__ */ import_react8.default.createElement(import_react8.default.Fragment, null, children);
     }
-    function mouseOverHandler(e) {
-      const nodes = document.elementsFromPoint(e.clientX, e.clientY);
-      setNodeAsRef(e.target);
-      nodes.forEach((node2) => {
-        if (node2.nodeName === "BODY" || node2.nodeName === "HTML" || node2.getAttribute("id") == "root")
-          return;
-        node2.classList.add(inspect_module_default.node);
+    function mouseOverHandler(e2) {
+      inspector2.current = e2.currentTarget;
+      const childNodes = [...inspector2.current.querySelectorAll("*")];
+      const target = e2.target;
+      childNodes.forEach((node3) => {
+        node3.classList.add(inspect_module_default.node);
+        node3.onmouseover = (event) => {
+          event.target.classList.add(inspect_module_default["node-hovered"]);
+        };
+        node3.onmouseout = (event) => {
+          event.target.classList.remove(inspect_module_default["node-hovered"]);
+        };
       });
+      target.onclick = (event) => {
+        resetActiveNode(childNodes);
+        target.classList.add(inspect_module_default["node-actived"]);
+        node2.current = event.target;
+        setCurrentNode(target);
+        setIsInspected(true);
+      };
     }
-    nodeAsRef.onclick = (e) => {
-      e.stopPropagation();
-      nodeAsRef.classList.add(inspect_module_default["node-actived"]);
-      inspectSize(node);
-      setIsInspected(true);
-    };
-    nodeAsRef.onmouseover = (e) => {
-      e.stopPropagation();
-      nodeAsRef.classList.add(inspect_module_default["node-hovered"]);
-    };
-    nodeAsRef.onmouseleave = (e) => {
-      e.stopPropagation();
-      nodeAsRef.classList.remove(inspect_module_default["node-hovered"]);
-    };
-    return /* @__PURE__ */ import_react8.default.createElement(import_react8.default.Fragment, null, /* @__PURE__ */ import_react8.default.createElement("span", { onMouseOver: mouseOverHandler, className: "inspector" }, children), isInspected && /* @__PURE__ */ import_react8.default.createElement(Editor, { node: nodeAsRef }));
-  }
-  function inspectSize(node2) {
-    const gap = 16;
-    node2.setAttribute("node-inspector-active", "");
-    const { width, height, top, bottom, left, right } = node2.getBoundingClientRect();
-    const x = left + width / 2;
-    const y = top + height + gap / 2;
-    const value = `${width} x ${height}`;
-    createMarker(x, y, value);
-  }
-  function createMarker(x, y, value) {
-    const marker = document.createElement("marker");
-    marker.classList.add(inspect_module_default.marker);
-    marker.textContent = value;
-    marker.style.left = x + "px";
-    marker.style.top = y + "px";
-    document.body.appendChild(marker);
+    function resetActiveNode(nodes) {
+      nodes.forEach((node3) => node3.classList.remove(inspect_module_default["node-actived"]));
+    }
+    return /* @__PURE__ */ import_react8.default.createElement(import_react8.default.Fragment, null, /* @__PURE__ */ import_react8.default.createElement("span", { onMouseOver: mouseOverHandler, ref: inspector2, className: inspect_module_default.inspector }, children), isInspected && /* @__PURE__ */ import_react8.default.createElement(Editor, { node: currentNode }));
   }
 
   // src/components/App/app.jsx
