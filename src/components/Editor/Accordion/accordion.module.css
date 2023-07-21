@@ -1,10 +1,10 @@
 .accordion {
 }
 
-.accordion[accordion-open="false"] {
+.accordion-body[accordion-open="false"] {
 	display: none;
 }
 
-.accordion[accordion-open="true"] {
+.accordion-body[accordion-open="true"] {
 	display: flex;
 }

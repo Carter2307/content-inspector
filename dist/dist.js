@@ -328,7 +328,7 @@
               try {
                 testStringCoercion(value);
                 return false;
-              } catch (e2) {
+              } catch (e) {
                 return true;
               }
             }
@@ -1101,7 +1101,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState3(initialState) {
+          function useState4(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1520,26 +1520,26 @@
               setCurrentlyValidatingElement$1(null);
             }
           }
-          function validateChildKeys(node2, parentType) {
-            if (typeof node2 !== "object") {
+          function validateChildKeys(node, parentType) {
+            if (typeof node !== "object") {
               return;
             }
-            if (isArray(node2)) {
-              for (var i = 0; i < node2.length; i++) {
-                var child = node2[i];
+            if (isArray(node)) {
+              for (var i = 0; i < node.length; i++) {
+                var child = node[i];
                 if (isValidElement(child)) {
                   validateExplicitKey(child, parentType);
                 }
               }
-            } else if (isValidElement(node2)) {
-              if (node2._store) {
-                node2._store.validated = true;
+            } else if (isValidElement(node)) {
+              if (node._store) {
+                node._store.validated = true;
               }
-            } else if (node2) {
-              var iteratorFn = getIteratorFn(node2);
+            } else if (node) {
+              var iteratorFn = getIteratorFn(node);
               if (typeof iteratorFn === "function") {
-                if (iteratorFn !== node2.entries) {
-                  var iterator = iteratorFn.call(node2);
+                if (iteratorFn !== node.entries) {
+                  var iterator = iteratorFn.call(node);
                   var step;
                   while (!(step = iterator.next()).done) {
                     if (isValidElement(step.value)) {
@@ -1903,7 +1903,7 @@
           exports.useMemo = useMemo;
           exports.useReducer = useReducer;
           exports.useRef = useRef;
-          exports.useState = useState3;
+          exports.useState = useState4;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -1940,10 +1940,10 @@
           var enableSchedulerDebugging = false;
           var enableProfiling = false;
           var frameYieldMs = 5;
-          function push(heap, node2) {
+          function push(heap, node) {
             var index = heap.length;
-            heap.push(node2);
-            siftUp(heap, node2, index);
+            heap.push(node);
+            siftUp(heap, node, index);
           }
           function peek(heap) {
             return heap.length === 0 ? null : heap[0];
@@ -1960,13 +1960,13 @@
             }
             return first;
           }
-          function siftUp(heap, node2, i) {
+          function siftUp(heap, node, i) {
             var index = i;
             while (index > 0) {
               var parentIndex = index - 1 >>> 1;
               var parent = heap[parentIndex];
-              if (compare(parent, node2) > 0) {
-                heap[parentIndex] = node2;
+              if (compare(parent, node) > 0) {
+                heap[parentIndex] = node;
                 heap[index] = parent;
                 index = parentIndex;
               } else {
@@ -1974,7 +1974,7 @@
               }
             }
           }
-          function siftDown(heap, node2, i) {
+          function siftDown(heap, node, i) {
             var index = i;
             var length = heap.length;
             var halfLength = length >>> 1;
@@ -1983,19 +1983,19 @@
               var left = heap[leftIndex];
               var rightIndex = leftIndex + 1;
               var right = heap[rightIndex];
-              if (compare(left, node2) < 0) {
+              if (compare(left, node) < 0) {
                 if (rightIndex < length && compare(right, left) < 0) {
                   heap[index] = right;
-                  heap[rightIndex] = node2;
+                  heap[rightIndex] = node;
                   index = rightIndex;
                 } else {
                   heap[index] = left;
-                  heap[leftIndex] = node2;
+                  heap[leftIndex] = node;
                   index = leftIndex;
                 }
-              } else if (rightIndex < length && compare(right, node2) < 0) {
+              } else if (rightIndex < length && compare(right, node) < 0) {
                 heap[index] = right;
-                heap[rightIndex] = node2;
+                heap[rightIndex] = node;
                 index = rightIndex;
               } else {
                 return;
@@ -2399,9 +2399,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React11 = require_react();
+          var React12 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React11.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React12.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -2518,7 +2518,7 @@
               try {
                 testStringCoercion(value);
                 return false;
-              } catch (e2) {
+              } catch (e) {
                 return true;
               }
             }
@@ -3069,11 +3069,11 @@
               }
             }
           }
-          function getValueForProperty(node2, name, expected, propertyInfo) {
+          function getValueForProperty(node, name, expected, propertyInfo) {
             {
               if (propertyInfo.mustUseProperty) {
                 var propertyName = propertyInfo.propertyName;
-                return node2[propertyName];
+                return node[propertyName];
               } else {
                 {
                   checkAttributeStringCoercion(expected, name);
@@ -3084,8 +3084,8 @@
                 var attributeName = propertyInfo.attributeName;
                 var stringValue = null;
                 if (propertyInfo.type === OVERLOADED_BOOLEAN) {
-                  if (node2.hasAttribute(attributeName)) {
-                    var value = node2.getAttribute(attributeName);
+                  if (node.hasAttribute(attributeName)) {
+                    var value = node.getAttribute(attributeName);
                     if (value === "") {
                       return true;
                     }
@@ -3097,14 +3097,14 @@
                     }
                     return value;
                   }
-                } else if (node2.hasAttribute(attributeName)) {
+                } else if (node.hasAttribute(attributeName)) {
                   if (shouldRemoveAttribute(name, expected, propertyInfo, false)) {
-                    return node2.getAttribute(attributeName);
+                    return node.getAttribute(attributeName);
                   }
                   if (propertyInfo.type === BOOLEAN) {
                     return expected;
                   }
-                  stringValue = node2.getAttribute(attributeName);
+                  stringValue = node.getAttribute(attributeName);
                 }
                 if (shouldRemoveAttribute(name, expected, propertyInfo, false)) {
                   return stringValue === null ? expected : stringValue;
@@ -3116,15 +3116,15 @@
               }
             }
           }
-          function getValueForAttribute(node2, name, expected, isCustomComponentTag) {
+          function getValueForAttribute(node, name, expected, isCustomComponentTag) {
             {
               if (!isAttributeNameSafe(name)) {
                 return;
               }
-              if (!node2.hasAttribute(name)) {
+              if (!node.hasAttribute(name)) {
                 return expected === void 0 ? void 0 : null;
               }
-              var value = node2.getAttribute(name);
+              var value = node.getAttribute(name);
               {
                 checkAttributeStringCoercion(expected, name);
               }
@@ -3134,7 +3134,7 @@
               return value;
             }
           }
-          function setValueForProperty(node2, name, value, isCustomComponentTag) {
+          function setValueForProperty(node, name, value, isCustomComponentTag) {
             var propertyInfo = getPropertyInfo(name);
             if (shouldIgnoreAttribute(name, propertyInfo, isCustomComponentTag)) {
               return;
@@ -3146,12 +3146,12 @@
               if (isAttributeNameSafe(name)) {
                 var _attributeName = name;
                 if (value === null) {
-                  node2.removeAttribute(_attributeName);
+                  node.removeAttribute(_attributeName);
                 } else {
                   {
                     checkAttributeStringCoercion(value, name);
                   }
-                  node2.setAttribute(_attributeName, "" + value);
+                  node.setAttribute(_attributeName, "" + value);
                 }
               }
               return;
@@ -3161,15 +3161,15 @@
               var propertyName = propertyInfo.propertyName;
               if (value === null) {
                 var type = propertyInfo.type;
-                node2[propertyName] = type === BOOLEAN ? false : "";
+                node[propertyName] = type === BOOLEAN ? false : "";
               } else {
-                node2[propertyName] = value;
+                node[propertyName] = value;
               }
               return;
             }
             var attributeName = propertyInfo.attributeName, attributeNamespace = propertyInfo.attributeNamespace;
             if (value === null) {
-              node2.removeAttribute(attributeName);
+              node.removeAttribute(attributeName);
             } else {
               var _type = propertyInfo.type;
               var attributeValue;
@@ -3187,9 +3187,9 @@
                 }
               }
               if (attributeNamespace) {
-                node2.setAttributeNS(attributeNamespace, attributeName, attributeValue);
+                node.setAttributeNS(attributeNamespace, attributeName, attributeValue);
               } else {
-                node2.setAttribute(attributeName, attributeValue);
+                node.setAttribute(attributeName, attributeValue);
               }
             }
           }
@@ -3504,11 +3504,11 @@
           function getStackByFiberInDevAndProd(workInProgress2) {
             try {
               var info = "";
-              var node2 = workInProgress2;
+              var node = workInProgress2;
               do {
-                info += describeFiber(node2);
-                node2 = node2.return;
-              } while (node2);
+                info += describeFiber(node);
+                node = node.return;
+              } while (node);
               return info;
             } catch (x) {
               return "\nError generating stack: " + x.message + "\n" + x.stack;
@@ -3741,36 +3741,36 @@
             var nodeName = elem.nodeName;
             return nodeName && nodeName.toLowerCase() === "input" && (type === "checkbox" || type === "radio");
           }
-          function getTracker(node2) {
-            return node2._valueTracker;
+          function getTracker(node) {
+            return node._valueTracker;
           }
-          function detachTracker(node2) {
-            node2._valueTracker = null;
+          function detachTracker(node) {
+            node._valueTracker = null;
           }
-          function getValueFromNode(node2) {
+          function getValueFromNode(node) {
             var value = "";
-            if (!node2) {
+            if (!node) {
               return value;
             }
-            if (isCheckable(node2)) {
-              value = node2.checked ? "true" : "false";
+            if (isCheckable(node)) {
+              value = node.checked ? "true" : "false";
             } else {
-              value = node2.value;
+              value = node.value;
             }
             return value;
           }
-          function trackValueOnNode(node2) {
-            var valueField = isCheckable(node2) ? "checked" : "value";
-            var descriptor = Object.getOwnPropertyDescriptor(node2.constructor.prototype, valueField);
+          function trackValueOnNode(node) {
+            var valueField = isCheckable(node) ? "checked" : "value";
+            var descriptor = Object.getOwnPropertyDescriptor(node.constructor.prototype, valueField);
             {
-              checkFormFieldValueStringCoercion(node2[valueField]);
+              checkFormFieldValueStringCoercion(node[valueField]);
             }
-            var currentValue = "" + node2[valueField];
-            if (node2.hasOwnProperty(valueField) || typeof descriptor === "undefined" || typeof descriptor.get !== "function" || typeof descriptor.set !== "function") {
+            var currentValue = "" + node[valueField];
+            if (node.hasOwnProperty(valueField) || typeof descriptor === "undefined" || typeof descriptor.get !== "function" || typeof descriptor.set !== "function") {
               return;
             }
             var get2 = descriptor.get, set2 = descriptor.set;
-            Object.defineProperty(node2, valueField, {
+            Object.defineProperty(node, valueField, {
               configurable: true,
               get: function() {
                 return get2.call(this);
@@ -3783,7 +3783,7 @@
                 set2.call(this, value);
               }
             });
-            Object.defineProperty(node2, valueField, {
+            Object.defineProperty(node, valueField, {
               enumerable: descriptor.enumerable
             });
             var tracker = {
@@ -3797,28 +3797,28 @@
                 currentValue = "" + value;
               },
               stopTracking: function() {
-                detachTracker(node2);
-                delete node2[valueField];
+                detachTracker(node);
+                delete node[valueField];
               }
             };
             return tracker;
           }
-          function track(node2) {
-            if (getTracker(node2)) {
+          function track(node) {
+            if (getTracker(node)) {
               return;
             }
-            node2._valueTracker = trackValueOnNode(node2);
+            node._valueTracker = trackValueOnNode(node);
           }
-          function updateValueIfChanged(node2) {
-            if (!node2) {
+          function updateValueIfChanged(node) {
+            if (!node) {
               return false;
             }
-            var tracker = getTracker(node2);
+            var tracker = getTracker(node);
             if (!tracker) {
               return true;
             }
             var lastValue = tracker.getValue();
-            var nextValue = getValueFromNode(node2);
+            var nextValue = getValueFromNode(node);
             if (nextValue !== lastValue) {
               tracker.setValue(nextValue);
               return true;
@@ -3832,7 +3832,7 @@
             }
             try {
               return doc.activeElement || doc.body;
-            } catch (e2) {
+            } catch (e) {
               return doc.body;
             }
           }
@@ -3845,13 +3845,13 @@
             return usesChecked ? props.checked != null : props.value != null;
           }
           function getHostProps(element, props) {
-            var node2 = element;
+            var node = element;
             var checked = props.checked;
             var hostProps = assign({}, props, {
               defaultChecked: void 0,
               defaultValue: void 0,
               value: void 0,
-              checked: checked != null ? checked : node2._wrapperState.initialChecked
+              checked: checked != null ? checked : node._wrapperState.initialChecked
             });
             return hostProps;
           }
@@ -3867,30 +3867,30 @@
                 didWarnValueDefaultValue = true;
               }
             }
-            var node2 = element;
+            var node = element;
             var defaultValue = props.defaultValue == null ? "" : props.defaultValue;
-            node2._wrapperState = {
+            node._wrapperState = {
               initialChecked: props.checked != null ? props.checked : props.defaultChecked,
               initialValue: getToStringValue(props.value != null ? props.value : defaultValue),
               controlled: isControlled(props)
             };
           }
           function updateChecked(element, props) {
-            var node2 = element;
+            var node = element;
             var checked = props.checked;
             if (checked != null) {
-              setValueForProperty(node2, "checked", checked, false);
+              setValueForProperty(node, "checked", checked, false);
             }
           }
           function updateWrapper(element, props) {
-            var node2 = element;
+            var node = element;
             {
               var controlled = isControlled(props);
-              if (!node2._wrapperState.controlled && controlled && !didWarnUncontrolledToControlled) {
+              if (!node._wrapperState.controlled && controlled && !didWarnUncontrolledToControlled) {
                 error("A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components");
                 didWarnUncontrolledToControlled = true;
               }
-              if (node2._wrapperState.controlled && !controlled && !didWarnControlledToUncontrolled) {
+              if (node._wrapperState.controlled && !controlled && !didWarnControlledToUncontrolled) {
                 error("A component is changing a controlled input to be uncontrolled. This is likely caused by the value changing from a defined to undefined, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components");
                 didWarnControlledToUncontrolled = true;
               }
@@ -3900,67 +3900,67 @@
             var type = props.type;
             if (value != null) {
               if (type === "number") {
-                if (value === 0 && node2.value === "" || // We explicitly want to coerce to number here if possible.
+                if (value === 0 && node.value === "" || // We explicitly want to coerce to number here if possible.
                 // eslint-disable-next-line
-                node2.value != value) {
-                  node2.value = toString(value);
+                node.value != value) {
+                  node.value = toString(value);
                 }
-              } else if (node2.value !== toString(value)) {
-                node2.value = toString(value);
+              } else if (node.value !== toString(value)) {
+                node.value = toString(value);
               }
             } else if (type === "submit" || type === "reset") {
-              node2.removeAttribute("value");
+              node.removeAttribute("value");
               return;
             }
             {
               if (props.hasOwnProperty("value")) {
-                setDefaultValue(node2, props.type, value);
+                setDefaultValue(node, props.type, value);
               } else if (props.hasOwnProperty("defaultValue")) {
-                setDefaultValue(node2, props.type, getToStringValue(props.defaultValue));
+                setDefaultValue(node, props.type, getToStringValue(props.defaultValue));
               }
             }
             {
               if (props.checked == null && props.defaultChecked != null) {
-                node2.defaultChecked = !!props.defaultChecked;
+                node.defaultChecked = !!props.defaultChecked;
               }
             }
           }
           function postMountWrapper(element, props, isHydrating2) {
-            var node2 = element;
+            var node = element;
             if (props.hasOwnProperty("value") || props.hasOwnProperty("defaultValue")) {
               var type = props.type;
               var isButton = type === "submit" || type === "reset";
               if (isButton && (props.value === void 0 || props.value === null)) {
                 return;
               }
-              var initialValue = toString(node2._wrapperState.initialValue);
+              var initialValue = toString(node._wrapperState.initialValue);
               if (!isHydrating2) {
                 {
-                  if (initialValue !== node2.value) {
-                    node2.value = initialValue;
+                  if (initialValue !== node.value) {
+                    node.value = initialValue;
                   }
                 }
               }
               {
-                node2.defaultValue = initialValue;
+                node.defaultValue = initialValue;
               }
             }
-            var name = node2.name;
+            var name = node.name;
             if (name !== "") {
-              node2.name = "";
+              node.name = "";
             }
             {
-              node2.defaultChecked = !node2.defaultChecked;
-              node2.defaultChecked = !!node2._wrapperState.initialChecked;
+              node.defaultChecked = !node.defaultChecked;
+              node.defaultChecked = !!node._wrapperState.initialChecked;
             }
             if (name !== "") {
-              node2.name = name;
+              node.name = name;
             }
           }
           function restoreControlledState(element, props) {
-            var node2 = element;
-            updateWrapper(node2, props);
-            updateNamedCousins(node2, props);
+            var node = element;
+            updateWrapper(node, props);
+            updateNamedCousins(node, props);
           }
           function updateNamedCousins(rootNode, props) {
             var name = props.name;
@@ -3987,15 +3987,15 @@
               }
             }
           }
-          function setDefaultValue(node2, type, value) {
+          function setDefaultValue(node, type, value) {
             if (
               // Focused number inputs synchronize on blur. See ChangeEventPlugin.js
-              type !== "number" || getActiveElement(node2.ownerDocument) !== node2
+              type !== "number" || getActiveElement(node.ownerDocument) !== node
             ) {
               if (value == null) {
-                node2.defaultValue = toString(node2._wrapperState.initialValue);
-              } else if (node2.defaultValue !== toString(value)) {
-                node2.defaultValue = toString(value);
+                node.defaultValue = toString(node._wrapperState.initialValue);
+              } else if (node.defaultValue !== toString(value)) {
+                node.defaultValue = toString(value);
               }
             }
           }
@@ -4006,7 +4006,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React11.Children.forEach(props.children, function(child) {
+                  React12.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -4069,8 +4069,8 @@
               }
             }
           }
-          function updateOptions(node2, multiple, propValue, setDefaultSelected) {
-            var options2 = node2.options;
+          function updateOptions(node, multiple, propValue, setDefaultSelected) {
+            var options2 = node.options;
             if (multiple) {
               var selectedValues = propValue;
               var selectedValue = {};
@@ -4112,11 +4112,11 @@
             });
           }
           function initWrapperState$1(element, props) {
-            var node2 = element;
+            var node = element;
             {
               checkSelectPropTypes(props);
             }
-            node2._wrapperState = {
+            node._wrapperState = {
               wasMultiple: !!props.multiple
             };
             {
@@ -4127,52 +4127,52 @@
             }
           }
           function postMountWrapper$2(element, props) {
-            var node2 = element;
-            node2.multiple = !!props.multiple;
+            var node = element;
+            node.multiple = !!props.multiple;
             var value = props.value;
             if (value != null) {
-              updateOptions(node2, !!props.multiple, value, false);
+              updateOptions(node, !!props.multiple, value, false);
             } else if (props.defaultValue != null) {
-              updateOptions(node2, !!props.multiple, props.defaultValue, true);
+              updateOptions(node, !!props.multiple, props.defaultValue, true);
             }
           }
           function postUpdateWrapper(element, props) {
-            var node2 = element;
-            var wasMultiple = node2._wrapperState.wasMultiple;
-            node2._wrapperState.wasMultiple = !!props.multiple;
+            var node = element;
+            var wasMultiple = node._wrapperState.wasMultiple;
+            node._wrapperState.wasMultiple = !!props.multiple;
             var value = props.value;
             if (value != null) {
-              updateOptions(node2, !!props.multiple, value, false);
+              updateOptions(node, !!props.multiple, value, false);
             } else if (wasMultiple !== !!props.multiple) {
               if (props.defaultValue != null) {
-                updateOptions(node2, !!props.multiple, props.defaultValue, true);
+                updateOptions(node, !!props.multiple, props.defaultValue, true);
               } else {
-                updateOptions(node2, !!props.multiple, props.multiple ? [] : "", false);
+                updateOptions(node, !!props.multiple, props.multiple ? [] : "", false);
               }
             }
           }
           function restoreControlledState$1(element, props) {
-            var node2 = element;
+            var node = element;
             var value = props.value;
             if (value != null) {
-              updateOptions(node2, !!props.multiple, value, false);
+              updateOptions(node, !!props.multiple, value, false);
             }
           }
           var didWarnValDefaultVal = false;
           function getHostProps$2(element, props) {
-            var node2 = element;
+            var node = element;
             if (props.dangerouslySetInnerHTML != null) {
               throw new Error("`dangerouslySetInnerHTML` does not make sense on <textarea>.");
             }
             var hostProps = assign({}, props, {
               value: void 0,
               defaultValue: void 0,
-              children: toString(node2._wrapperState.initialValue)
+              children: toString(node._wrapperState.initialValue)
             });
             return hostProps;
           }
           function initWrapperState$2(element, props) {
-            var node2 = element;
+            var node = element;
             {
               checkControlledValueProps("textarea", props);
               if (props.value !== void 0 && props.defaultValue !== void 0 && !didWarnValDefaultVal) {
@@ -4205,33 +4205,33 @@
               }
               initialValue = defaultValue;
             }
-            node2._wrapperState = {
+            node._wrapperState = {
               initialValue: getToStringValue(initialValue)
             };
           }
           function updateWrapper$1(element, props) {
-            var node2 = element;
+            var node = element;
             var value = getToStringValue(props.value);
             var defaultValue = getToStringValue(props.defaultValue);
             if (value != null) {
               var newValue = toString(value);
-              if (newValue !== node2.value) {
-                node2.value = newValue;
+              if (newValue !== node.value) {
+                node.value = newValue;
               }
-              if (props.defaultValue == null && node2.defaultValue !== newValue) {
-                node2.defaultValue = newValue;
+              if (props.defaultValue == null && node.defaultValue !== newValue) {
+                node.defaultValue = newValue;
               }
             }
             if (defaultValue != null) {
-              node2.defaultValue = toString(defaultValue);
+              node.defaultValue = toString(defaultValue);
             }
           }
           function postMountWrapper$3(element, props) {
-            var node2 = element;
-            var textContent = node2.textContent;
-            if (textContent === node2._wrapperState.initialValue) {
+            var node = element;
+            var textContent = node.textContent;
+            if (textContent === node._wrapperState.initialValue) {
               if (textContent !== "" && textContent !== null) {
-                node2.value = textContent;
+                node.value = textContent;
               }
             }
           }
@@ -4272,37 +4272,37 @@
             }
           };
           var reusableSVGContainer;
-          var setInnerHTML = createMicrosoftUnsafeLocalFunction(function(node2, html) {
-            if (node2.namespaceURI === SVG_NAMESPACE) {
-              if (!("innerHTML" in node2)) {
+          var setInnerHTML = createMicrosoftUnsafeLocalFunction(function(node, html) {
+            if (node.namespaceURI === SVG_NAMESPACE) {
+              if (!("innerHTML" in node)) {
                 reusableSVGContainer = reusableSVGContainer || document.createElement("div");
                 reusableSVGContainer.innerHTML = "<svg>" + html.valueOf().toString() + "</svg>";
                 var svgNode = reusableSVGContainer.firstChild;
-                while (node2.firstChild) {
-                  node2.removeChild(node2.firstChild);
+                while (node.firstChild) {
+                  node.removeChild(node.firstChild);
                 }
                 while (svgNode.firstChild) {
-                  node2.appendChild(svgNode.firstChild);
+                  node.appendChild(svgNode.firstChild);
                 }
                 return;
               }
             }
-            node2.innerHTML = html;
+            node.innerHTML = html;
           });
           var ELEMENT_NODE = 1;
           var TEXT_NODE = 3;
           var COMMENT_NODE = 8;
           var DOCUMENT_NODE = 9;
           var DOCUMENT_FRAGMENT_NODE = 11;
-          var setTextContent = function(node2, text) {
+          var setTextContent = function(node, text) {
             if (text) {
-              var firstChild = node2.firstChild;
-              if (firstChild && firstChild === node2.lastChild && firstChild.nodeType === TEXT_NODE) {
+              var firstChild = node.firstChild;
+              if (firstChild && firstChild === node.lastChild && firstChild.nodeType === TEXT_NODE) {
                 firstChild.nodeValue = text;
                 return;
               }
             }
-            node2.textContent = text;
+            node.textContent = text;
           };
           var shorthandToLonghand = {
             animation: ["animationDelay", "animationDirection", "animationDuration", "animationFillMode", "animationIterationCount", "animationName", "animationPlayState", "animationTimingFunction"],
@@ -4521,8 +4521,8 @@
               return serialized || null;
             }
           }
-          function setValueForStyles(node2, styles) {
-            var style2 = node2.style;
+          function setValueForStyles(node, styles) {
+            var style2 = node.style;
             for (var styleName in styles) {
               if (!styles.hasOwnProperty(styleName)) {
                 continue;
@@ -5558,11 +5558,11 @@
               });
               window.addEventListener("test", options, options);
               window.removeEventListener("test", options, options);
-            } catch (e2) {
+            } catch (e) {
               passiveBrowserEventsSupported = false;
             }
           }
-          function invokeGuardedCallbackProd(name, func, context, a, b, c, d, e2, f) {
+          function invokeGuardedCallbackProd(name, func, context, a, b, c, d, e, f) {
             var funcArgs = Array.prototype.slice.call(arguments, 3);
             try {
               func.apply(context, funcArgs);
@@ -5574,7 +5574,7 @@
           {
             if (typeof window !== "undefined" && typeof window.dispatchEvent === "function" && typeof document !== "undefined" && typeof document.createEvent === "function") {
               var fakeNode = document.createElement("react");
-              invokeGuardedCallbackImpl = function invokeGuardedCallbackDev(name, func, context, a, b, c, d, e2, f) {
+              invokeGuardedCallbackImpl = function invokeGuardedCallbackDev(name, func, context, a, b, c, d, e, f) {
                 if (typeof document === "undefined" || document === null) {
                   throw new Error("The `document` global was defined when React was initialized, but is not defined anymore. This can happen in a test environment if a component schedules an update from an asynchronous callback, but the test has already finished running. To solve this, you can either unmount the component at the end of your test (and ensure that any asynchronous operations get canceled in `componentWillUnmount`), or you can change the test itself to be asynchronous.");
                 }
@@ -5649,12 +5649,12 @@
               caughtError = error2;
             }
           };
-          function invokeGuardedCallback(name, func, context, a, b, c, d, e2, f) {
+          function invokeGuardedCallback(name, func, context, a, b, c, d, e, f) {
             hasError = false;
             caughtError = null;
             invokeGuardedCallbackImpl$1.apply(reporter, arguments);
           }
-          function invokeGuardedCallbackAndCatchFirstError(name, func, context, a, b, c, d, e2, f) {
+          function invokeGuardedCallbackAndCatchFirstError(name, func, context, a, b, c, d, e, f) {
             invokeGuardedCallback.apply(this, arguments);
             if (hasError) {
               var error2 = clearCaughtError();
@@ -5806,23 +5806,23 @@
           var StaticMask = LayoutStatic | PassiveStatic | RefStatic;
           var ReactCurrentOwner = ReactSharedInternals.ReactCurrentOwner;
           function getNearestMountedFiber(fiber) {
-            var node2 = fiber;
+            var node = fiber;
             var nearestMounted = fiber;
             if (!fiber.alternate) {
-              var nextNode = node2;
+              var nextNode = node;
               do {
-                node2 = nextNode;
-                if ((node2.flags & (Placement | Hydrating)) !== NoFlags) {
-                  nearestMounted = node2.return;
+                node = nextNode;
+                if ((node.flags & (Placement | Hydrating)) !== NoFlags) {
+                  nearestMounted = node.return;
                 }
-                nextNode = node2.return;
+                nextNode = node.return;
               } while (nextNode);
             } else {
-              while (node2.return) {
-                node2 = node2.return;
+              while (node.return) {
+                node = node.return;
               }
             }
-            if (node2.tag === HostRoot) {
+            if (node.tag === HostRoot) {
               return nearestMounted;
             }
             return null;
@@ -5973,11 +5973,11 @@
             var currentParent = findCurrentFiberUsingSlowPath(parent);
             return currentParent !== null ? findCurrentHostFiberImpl(currentParent) : null;
           }
-          function findCurrentHostFiberImpl(node2) {
-            if (node2.tag === HostComponent || node2.tag === HostText) {
-              return node2;
+          function findCurrentHostFiberImpl(node) {
+            if (node.tag === HostComponent || node.tag === HostText) {
+              return node;
             }
-            var child = node2.child;
+            var child = node.child;
             while (child !== null) {
               var match = findCurrentHostFiberImpl(child);
               if (match !== null) {
@@ -5991,11 +5991,11 @@
             var currentParent = findCurrentFiberUsingSlowPath(parent);
             return currentParent !== null ? findCurrentHostFiberWithNoPortalsImpl(currentParent) : null;
           }
-          function findCurrentHostFiberWithNoPortalsImpl(node2) {
-            if (node2.tag === HostComponent || node2.tag === HostText) {
-              return node2;
+          function findCurrentHostFiberWithNoPortalsImpl(node) {
+            if (node.tag === HostComponent || node.tag === HostText) {
+              return node;
             }
-            var child = node2.child;
+            var child = node.child;
             while (child !== null) {
               if (child.tag !== HostPortal) {
                 var match = findCurrentHostFiberWithNoPortalsImpl(child);
@@ -8283,13 +8283,13 @@
               return getInstIfValueChanged(targetInst);
             }
           }
-          function handleControlledInputBlur(node2) {
-            var state = node2._wrapperState;
-            if (!state || !state.controlled || node2.type !== "number") {
+          function handleControlledInputBlur(node) {
+            var state = node._wrapperState;
+            if (!state || !state.controlled || node.type !== "number") {
               return;
             }
             {
-              setDefaultValue(node2, "number", node2.value);
+              setDefaultValue(node, "number", node.value);
             }
           }
           function extractEvents$1(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
@@ -8420,36 +8420,36 @@
             }
             return true;
           }
-          function getLeafNode(node2) {
-            while (node2 && node2.firstChild) {
-              node2 = node2.firstChild;
+          function getLeafNode(node) {
+            while (node && node.firstChild) {
+              node = node.firstChild;
             }
-            return node2;
+            return node;
           }
-          function getSiblingNode(node2) {
-            while (node2) {
-              if (node2.nextSibling) {
-                return node2.nextSibling;
+          function getSiblingNode(node) {
+            while (node) {
+              if (node.nextSibling) {
+                return node.nextSibling;
               }
-              node2 = node2.parentNode;
+              node = node.parentNode;
             }
           }
           function getNodeForCharacterOffset(root2, offset) {
-            var node2 = getLeafNode(root2);
+            var node = getLeafNode(root2);
             var nodeStart = 0;
             var nodeEnd = 0;
-            while (node2) {
-              if (node2.nodeType === TEXT_NODE) {
-                nodeEnd = nodeStart + node2.textContent.length;
+            while (node) {
+              if (node.nodeType === TEXT_NODE) {
+                nodeEnd = nodeStart + node.textContent.length;
                 if (nodeStart <= offset && nodeEnd >= offset) {
                   return {
-                    node: node2,
+                    node,
                     offset: offset - nodeStart
                   };
                 }
                 nodeStart = nodeEnd;
               }
-              node2 = getLeafNode(getSiblingNode(node2));
+              node = getLeafNode(getSiblingNode(node));
             }
           }
           function getOffsets(outerNode) {
@@ -8463,7 +8463,7 @@
             try {
               anchorNode.nodeType;
               focusNode.nodeType;
-            } catch (e2) {
+            } catch (e) {
               return null;
             }
             return getModernOffsetsFromPoints(outerNode, anchorNode, anchorOffset, focusNode, focusOffset);
@@ -8474,29 +8474,29 @@
             var end = -1;
             var indexWithinAnchor = 0;
             var indexWithinFocus = 0;
-            var node2 = outerNode;
+            var node = outerNode;
             var parentNode = null;
             outer:
               while (true) {
                 var next = null;
                 while (true) {
-                  if (node2 === anchorNode && (anchorOffset === 0 || node2.nodeType === TEXT_NODE)) {
+                  if (node === anchorNode && (anchorOffset === 0 || node.nodeType === TEXT_NODE)) {
                     start = length + anchorOffset;
                   }
-                  if (node2 === focusNode && (focusOffset === 0 || node2.nodeType === TEXT_NODE)) {
+                  if (node === focusNode && (focusOffset === 0 || node.nodeType === TEXT_NODE)) {
                     end = length + focusOffset;
                   }
-                  if (node2.nodeType === TEXT_NODE) {
-                    length += node2.nodeValue.length;
+                  if (node.nodeType === TEXT_NODE) {
+                    length += node.nodeValue.length;
                   }
-                  if ((next = node2.firstChild) === null) {
+                  if ((next = node.firstChild) === null) {
                     break;
                   }
-                  parentNode = node2;
-                  node2 = next;
+                  parentNode = node;
+                  node = next;
                 }
                 while (true) {
-                  if (node2 === outerNode) {
+                  if (node === outerNode) {
                     break outer;
                   }
                   if (parentNode === anchorNode && ++indexWithinAnchor === anchorOffset) {
@@ -8505,13 +8505,13 @@
                   if (parentNode === focusNode && ++indexWithinFocus === focusOffset) {
                     end = length;
                   }
-                  if ((next = node2.nextSibling) !== null) {
+                  if ((next = node.nextSibling) !== null) {
                     break;
                   }
-                  node2 = parentNode;
-                  parentNode = node2.parentNode;
+                  node = parentNode;
+                  parentNode = node.parentNode;
                 }
-                node2 = next;
+                node = next;
               }
             if (start === -1 || end === -1) {
               return null;
@@ -8521,14 +8521,14 @@
               end
             };
           }
-          function setOffsets(node2, offsets) {
-            var doc = node2.ownerDocument || document;
+          function setOffsets(node, offsets) {
+            var doc = node.ownerDocument || document;
             var win = doc && doc.defaultView || window;
             if (!win.getSelection) {
               return;
             }
             var selection = win.getSelection();
-            var length = node2.textContent.length;
+            var length = node.textContent.length;
             var start = Math.min(offsets.start, length);
             var end = offsets.end === void 0 ? start : Math.min(offsets.end, length);
             if (!selection.extend && start > end) {
@@ -8536,8 +8536,8 @@
               end = start;
               start = temp;
             }
-            var startMarker = getNodeForCharacterOffset(node2, start);
-            var endMarker = getNodeForCharacterOffset(node2, end);
+            var startMarker = getNodeForCharacterOffset(node, start);
+            var endMarker = getNodeForCharacterOffset(node, end);
             if (startMarker && endMarker) {
               if (selection.rangeCount === 1 && selection.anchorNode === startMarker.node && selection.anchorOffset === startMarker.offset && selection.focusNode === endMarker.node && selection.focusOffset === endMarker.offset) {
                 return;
@@ -8554,8 +8554,8 @@
               }
             }
           }
-          function isTextNode(node2) {
-            return node2 && node2.nodeType === TEXT_NODE;
+          function isTextNode(node) {
+            return node && node.nodeType === TEXT_NODE;
           }
           function containsNode(outerNode, innerNode) {
             if (!outerNode || !innerNode) {
@@ -8574,8 +8574,8 @@
               return false;
             }
           }
-          function isInDocument(node2) {
-            return node2 && node2.ownerDocument && containsNode(node2.ownerDocument.documentElement, node2);
+          function isInDocument(node) {
+            return node && node.ownerDocument && containsNode(node.ownerDocument.documentElement, node);
           }
           function isSameOriginFrame(iframe) {
             try {
@@ -8673,14 +8673,14 @@
           var activeElementInst$1 = null;
           var lastSelection = null;
           var mouseDown = false;
-          function getSelection$1(node2) {
-            if ("selectionStart" in node2 && hasSelectionCapabilities(node2)) {
+          function getSelection$1(node) {
+            if ("selectionStart" in node && hasSelectionCapabilities(node)) {
               return {
-                start: node2.selectionStart,
-                end: node2.selectionEnd
+                start: node.selectionStart,
+                end: node.selectionEnd
               };
             } else {
-              var win = node2.ownerDocument && node2.ownerDocument.defaultView || window;
+              var win = node.ownerDocument && node.ownerDocument.defaultView || window;
               var selection = win.getSelection();
               return {
                 anchorNode: selection.anchorNode,
@@ -9053,20 +9053,20 @@
             if ((eventSystemFlags & IS_EVENT_HANDLE_NON_MANAGED_NODE) === 0 && (eventSystemFlags & IS_NON_DELEGATED) === 0) {
               var targetContainerNode = targetContainer;
               if (targetInst !== null) {
-                var node2 = targetInst;
+                var node = targetInst;
                 mainLoop:
                   while (true) {
-                    if (node2 === null) {
+                    if (node === null) {
                       return;
                     }
-                    var nodeTag = node2.tag;
+                    var nodeTag = node.tag;
                     if (nodeTag === HostRoot || nodeTag === HostPortal) {
-                      var container = node2.stateNode.containerInfo;
+                      var container = node.stateNode.containerInfo;
                       if (isMatchingRootContainer(container, targetContainerNode)) {
                         break;
                       }
                       if (nodeTag === HostPortal) {
-                        var grandNode = node2.return;
+                        var grandNode = node.return;
                         while (grandNode !== null) {
                           var grandTag = grandNode.tag;
                           if (grandTag === HostRoot || grandTag === HostPortal) {
@@ -9085,13 +9085,13 @@
                         }
                         var parentTag = parentNode.tag;
                         if (parentTag === HostComponent || parentTag === HostText) {
-                          node2 = ancestorInst = parentNode;
+                          node = ancestorInst = parentNode;
                           continue mainLoop;
                         }
                         container = container.parentNode;
                       }
                     }
-                    node2 = node2.return;
+                    node = node.return;
                   }
               }
             }
@@ -9342,8 +9342,8 @@
           }
           function noop() {
           }
-          function trapClickOnNonInteractiveElement(node2) {
-            node2.onclick = noop;
+          function trapClickOnNonInteractiveElement(node) {
+            node.onclick = noop;
           }
           function setInitialDOMProperties(tag, domElement, rootContainerElement, nextProps, isCustomComponentTag) {
             for (var propKey in nextProps) {
@@ -9432,11 +9432,11 @@
               } else {
                 domElement = ownerDocument.createElement(type);
                 if (type === "select") {
-                  var node2 = domElement;
+                  var node = domElement;
                   if (props.multiple) {
-                    node2.multiple = true;
+                    node.multiple = true;
                   } else if (props.size) {
-                    node2.size = props.size;
+                    node.size = props.size;
                   }
                 }
               }
@@ -10396,11 +10396,11 @@
             }
           }
           function clearSuspenseBoundary(parentInstance, suspenseInstance) {
-            var node2 = suspenseInstance;
+            var node = suspenseInstance;
             var depth = 0;
             do {
-              var nextNode = node2.nextSibling;
-              parentInstance.removeChild(node2);
+              var nextNode = node.nextSibling;
+              parentInstance.removeChild(node);
               if (nextNode && nextNode.nodeType === COMMENT_NODE) {
                 var data = nextNode.data;
                 if (data === SUSPENSE_END_DATA) {
@@ -10415,8 +10415,8 @@
                   depth++;
                 }
               }
-              node2 = nextNode;
-            } while (node2);
+              node = nextNode;
+            } while (node);
             retryIfBlockedOn(suspenseInstance);
           }
           function clearSuspenseBoundaryFromContainer(container, suspenseInstance) {
@@ -10502,14 +10502,14 @@
           function registerSuspenseInstanceRetry(instance, callback) {
             instance._reactRetry = callback;
           }
-          function getNextHydratable(node2) {
-            for (; node2 != null; node2 = node2.nextSibling) {
-              var nodeType = node2.nodeType;
+          function getNextHydratable(node) {
+            for (; node != null; node = node.nextSibling) {
+              var nodeType = node.nodeType;
               if (nodeType === ELEMENT_NODE || nodeType === TEXT_NODE) {
                 break;
               }
               if (nodeType === COMMENT_NODE) {
-                var nodeData = node2.data;
+                var nodeData = node.data;
                 if (nodeData === SUSPENSE_START_DATA || nodeData === SUSPENSE_FALLBACK_START_DATA || nodeData === SUSPENSE_PENDING_START_DATA) {
                   break;
                 }
@@ -10518,7 +10518,7 @@
                 }
               }
             }
-            return node2;
+            return node;
           }
           function getNextHydratableSibling(instance) {
             return getNextHydratable(instance.nextSibling);
@@ -10552,14 +10552,14 @@
             precacheFiberNode(internalInstanceHandle, suspenseInstance);
           }
           function getNextHydratableInstanceAfterSuspenseInstance(suspenseInstance) {
-            var node2 = suspenseInstance.nextSibling;
+            var node = suspenseInstance.nextSibling;
             var depth = 0;
-            while (node2) {
-              if (node2.nodeType === COMMENT_NODE) {
-                var data = node2.data;
+            while (node) {
+              if (node.nodeType === COMMENT_NODE) {
+                var data = node.data;
                 if (data === SUSPENSE_END_DATA) {
                   if (depth === 0) {
-                    return getNextHydratableSibling(node2);
+                    return getNextHydratableSibling(node);
                   } else {
                     depth--;
                   }
@@ -10567,19 +10567,19 @@
                   depth++;
                 }
               }
-              node2 = node2.nextSibling;
+              node = node.nextSibling;
             }
             return null;
           }
           function getParentSuspenseInstance(targetInstance) {
-            var node2 = targetInstance.previousSibling;
+            var node = targetInstance.previousSibling;
             var depth = 0;
-            while (node2) {
-              if (node2.nodeType === COMMENT_NODE) {
-                var data = node2.data;
+            while (node) {
+              if (node.nodeType === COMMENT_NODE) {
+                var data = node.data;
                 if (data === SUSPENSE_START_DATA || data === SUSPENSE_FALLBACK_START_DATA || data === SUSPENSE_PENDING_START_DATA) {
                   if (depth === 0) {
-                    return node2;
+                    return node;
                   } else {
                     depth--;
                   }
@@ -10587,7 +10587,7 @@
                   depth++;
                 }
               }
-              node2 = node2.previousSibling;
+              node = node.previousSibling;
             }
             return null;
           }
@@ -10701,24 +10701,24 @@
           var internalEventHandlersKey = "__reactEvents$" + randomKey;
           var internalEventHandlerListenersKey = "__reactListeners$" + randomKey;
           var internalEventHandlesSetKey = "__reactHandles$" + randomKey;
-          function detachDeletedInstance(node2) {
-            delete node2[internalInstanceKey];
-            delete node2[internalPropsKey];
-            delete node2[internalEventHandlersKey];
-            delete node2[internalEventHandlerListenersKey];
-            delete node2[internalEventHandlesSetKey];
+          function detachDeletedInstance(node) {
+            delete node[internalInstanceKey];
+            delete node[internalPropsKey];
+            delete node[internalEventHandlersKey];
+            delete node[internalEventHandlerListenersKey];
+            delete node[internalEventHandlesSetKey];
           }
-          function precacheFiberNode(hostInst, node2) {
-            node2[internalInstanceKey] = hostInst;
+          function precacheFiberNode(hostInst, node) {
+            node[internalInstanceKey] = hostInst;
           }
-          function markContainerAsRoot(hostRoot, node2) {
-            node2[internalContainerInstanceKey] = hostRoot;
+          function markContainerAsRoot(hostRoot, node) {
+            node[internalContainerInstanceKey] = hostRoot;
           }
-          function unmarkContainerAsRoot(node2) {
-            node2[internalContainerInstanceKey] = null;
+          function unmarkContainerAsRoot(node) {
+            node[internalContainerInstanceKey] = null;
           }
-          function isContainerMarkedAsRoot(node2) {
-            return !!node2[internalContainerInstanceKey];
+          function isContainerMarkedAsRoot(node) {
+            return !!node[internalContainerInstanceKey];
           }
           function getClosestInstanceFromNode(targetNode) {
             var targetInst = targetNode[internalInstanceKey];
@@ -10747,8 +10747,8 @@
             }
             return null;
           }
-          function getInstanceFromNode(node2) {
-            var inst = node2[internalInstanceKey] || node2[internalContainerInstanceKey];
+          function getInstanceFromNode(node) {
+            var inst = node[internalInstanceKey] || node[internalContainerInstanceKey];
             if (inst) {
               if (inst.tag === HostComponent || inst.tag === HostText || inst.tag === SuspenseComponent || inst.tag === HostRoot) {
                 return inst;
@@ -10764,16 +10764,16 @@
             }
             throw new Error("getNodeFromInstance: Invalid argument.");
           }
-          function getFiberCurrentPropsFromNode(node2) {
-            return node2[internalPropsKey] || null;
+          function getFiberCurrentPropsFromNode(node) {
+            return node[internalPropsKey] || null;
           }
-          function updateFiberProps(node2, props) {
-            node2[internalPropsKey] = props;
+          function updateFiberProps(node, props) {
+            node[internalPropsKey] = props;
           }
-          function getEventListenerSet(node2) {
-            var elementListenerSet = node2[internalEventHandlersKey];
+          function getEventListenerSet(node) {
+            var elementListenerSet = node[internalEventHandlersKey];
             if (elementListenerSet === void 0) {
-              elementListenerSet = node2[internalEventHandlersKey] = /* @__PURE__ */ new Set();
+              elementListenerSet = node[internalEventHandlersKey] = /* @__PURE__ */ new Set();
             }
             return elementListenerSet;
           }
@@ -11003,21 +11003,21 @@
               if (!isFiberMounted(fiber) || fiber.tag !== ClassComponent) {
                 throw new Error("Expected subtree parent to be a mounted class component. This error is likely caused by a bug in React. Please file an issue.");
               }
-              var node2 = fiber;
+              var node = fiber;
               do {
-                switch (node2.tag) {
+                switch (node.tag) {
                   case HostRoot:
-                    return node2.stateNode.context;
+                    return node.stateNode.context;
                   case ClassComponent: {
-                    var Component = node2.type;
+                    var Component = node.type;
                     if (isContextProvider(Component)) {
-                      return node2.stateNode.__reactInternalMemoizedMergedChildContext;
+                      return node.stateNode.__reactInternalMemoizedMergedChildContext;
                     }
                     break;
                   }
                 }
-                node2 = node2.return;
-              } while (node2 !== null);
+                node = node.return;
+              } while (node !== null);
               throw new Error("Found unexpected detached subtree parent. This error is likely caused by a bug in React. Please file an issue.");
             }
           }
@@ -11601,12 +11601,12 @@
           {
             var findStrictRoot = function(fiber) {
               var maybeStrictRoot = null;
-              var node2 = fiber;
-              while (node2 !== null) {
-                if (node2.mode & StrictLegacyMode) {
-                  maybeStrictRoot = node2;
+              var node = fiber;
+              while (node !== null) {
+                if (node.mode & StrictLegacyMode) {
+                  maybeStrictRoot = node;
                 }
-                node2 = node2.return;
+                node = node.return;
               }
               return maybeStrictRoot;
             };
@@ -11834,24 +11834,24 @@
             }
           }
           function scheduleContextWorkOnParentPath(parent, renderLanes2, propagationRoot) {
-            var node2 = parent;
-            while (node2 !== null) {
-              var alternate = node2.alternate;
-              if (!isSubsetOfLanes(node2.childLanes, renderLanes2)) {
-                node2.childLanes = mergeLanes(node2.childLanes, renderLanes2);
+            var node = parent;
+            while (node !== null) {
+              var alternate = node.alternate;
+              if (!isSubsetOfLanes(node.childLanes, renderLanes2)) {
+                node.childLanes = mergeLanes(node.childLanes, renderLanes2);
                 if (alternate !== null) {
                   alternate.childLanes = mergeLanes(alternate.childLanes, renderLanes2);
                 }
               } else if (alternate !== null && !isSubsetOfLanes(alternate.childLanes, renderLanes2)) {
                 alternate.childLanes = mergeLanes(alternate.childLanes, renderLanes2);
               }
-              if (node2 === propagationRoot) {
+              if (node === propagationRoot) {
                 break;
               }
-              node2 = node2.return;
+              node = node.return;
             }
             {
-              if (node2 !== propagationRoot) {
+              if (node !== propagationRoot) {
                 error("Expected to find the propagation root when scheduling context work. This error is likely caused by a bug in React. Please file an issue.");
               }
             }
@@ -12067,7 +12067,7 @@
                 warnAboutUpdateOnNotYetMountedFiberInDEV(sourceFiber);
               }
             }
-            var node2 = sourceFiber;
+            var node = sourceFiber;
             var parent = sourceFiber.return;
             while (parent !== null) {
               parent.childLanes = mergeLanes(parent.childLanes, lane);
@@ -12081,11 +12081,11 @@
                   }
                 }
               }
-              node2 = parent;
+              node = parent;
               parent = parent.return;
             }
-            if (node2.tag === HostRoot) {
-              var root2 = node2.stateNode;
+            if (node.tag === HostRoot) {
+              var root2 = node.stateNode;
               return root2;
             } else {
               return null;
@@ -12453,7 +12453,7 @@
             }
           }
           var fakeInternalInstance = {};
-          var emptyRefsObject = new React11.Component().refs;
+          var emptyRefsObject = new React12.Component().refs;
           var didWarnAboutStateAssignmentForComponent;
           var didWarnAboutUninitializedState;
           var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -13897,39 +13897,39 @@
             }
           }
           function findFirstSuspended(row) {
-            var node2 = row;
-            while (node2 !== null) {
-              if (node2.tag === SuspenseComponent) {
-                var state = node2.memoizedState;
+            var node = row;
+            while (node !== null) {
+              if (node.tag === SuspenseComponent) {
+                var state = node.memoizedState;
                 if (state !== null) {
                   var dehydrated = state.dehydrated;
                   if (dehydrated === null || isSuspenseInstancePending(dehydrated) || isSuspenseInstanceFallback(dehydrated)) {
-                    return node2;
+                    return node;
                   }
                 }
-              } else if (node2.tag === SuspenseListComponent && // revealOrder undefined can't be trusted because it don't
+              } else if (node.tag === SuspenseListComponent && // revealOrder undefined can't be trusted because it don't
               // keep track of whether it suspended or not.
-              node2.memoizedProps.revealOrder !== void 0) {
-                var didSuspend = (node2.flags & DidCapture) !== NoFlags;
+              node.memoizedProps.revealOrder !== void 0) {
+                var didSuspend = (node.flags & DidCapture) !== NoFlags;
                 if (didSuspend) {
-                  return node2;
+                  return node;
                 }
-              } else if (node2.child !== null) {
-                node2.child.return = node2;
-                node2 = node2.child;
+              } else if (node.child !== null) {
+                node.child.return = node;
+                node = node.child;
                 continue;
               }
-              if (node2 === row) {
+              if (node === row) {
                 return null;
               }
-              while (node2.sibling === null) {
-                if (node2.return === null || node2.return === row) {
+              while (node.sibling === null) {
+                if (node.return === null || node.return === row) {
                   return null;
                 }
-                node2 = node2.return;
+                node = node.return;
               }
-              node2.sibling.return = node2.return;
-              node2 = node2.sibling;
+              node.sibling.return = node.return;
+              node = node.sibling;
             }
             return null;
           }
@@ -15959,9 +15959,9 @@
               } else {
                 console["error"](error2);
               }
-            } catch (e2) {
+            } catch (e) {
               setTimeout(function() {
-                throw e2;
+                throw e;
               });
             }
           }
@@ -16071,13 +16071,13 @@
             }
           }
           function getNearestSuspenseBoundaryToCapture(returnFiber) {
-            var node2 = returnFiber;
+            var node = returnFiber;
             do {
-              if (node2.tag === SuspenseComponent && shouldCaptureSuspense(node2)) {
-                return node2;
+              if (node.tag === SuspenseComponent && shouldCaptureSuspense(node)) {
+                return node;
               }
-              node2 = node2.return;
-            } while (node2 !== null);
+              node = node.return;
+            } while (node !== null);
             return null;
           }
           function markSuspenseBoundaryShouldCapture(suspenseBoundary, returnFiber, sourceFiber, root2, rootRenderLanes) {
@@ -16683,10 +16683,10 @@
                 enterHydrationState(workInProgress2);
                 var child = mountChildFibers(workInProgress2, null, nextChildren, renderLanes2);
                 workInProgress2.child = child;
-                var node2 = child;
-                while (node2) {
-                  node2.flags = node2.flags & ~Placement | Hydrating;
-                  node2 = node2.sibling;
+                var node = child;
+                while (node) {
+                  node.flags = node.flags & ~Placement | Hydrating;
+                  node = node.sibling;
                 }
               }
             } else {
@@ -17296,31 +17296,31 @@
             scheduleContextWorkOnParentPath(fiber.return, renderLanes2, propagationRoot);
           }
           function propagateSuspenseContextChange(workInProgress2, firstChild, renderLanes2) {
-            var node2 = firstChild;
-            while (node2 !== null) {
-              if (node2.tag === SuspenseComponent) {
-                var state = node2.memoizedState;
+            var node = firstChild;
+            while (node !== null) {
+              if (node.tag === SuspenseComponent) {
+                var state = node.memoizedState;
                 if (state !== null) {
-                  scheduleSuspenseWorkOnFiber(node2, renderLanes2, workInProgress2);
+                  scheduleSuspenseWorkOnFiber(node, renderLanes2, workInProgress2);
                 }
-              } else if (node2.tag === SuspenseListComponent) {
-                scheduleSuspenseWorkOnFiber(node2, renderLanes2, workInProgress2);
-              } else if (node2.child !== null) {
-                node2.child.return = node2;
-                node2 = node2.child;
+              } else if (node.tag === SuspenseListComponent) {
+                scheduleSuspenseWorkOnFiber(node, renderLanes2, workInProgress2);
+              } else if (node.child !== null) {
+                node.child.return = node;
+                node = node.child;
                 continue;
               }
-              if (node2 === workInProgress2) {
+              if (node === workInProgress2) {
                 return;
               }
-              while (node2.sibling === null) {
-                if (node2.return === null || node2.return === workInProgress2) {
+              while (node.sibling === null) {
+                if (node.return === null || node.return === workInProgress2) {
                   return;
                 }
-                node2 = node2.return;
+                node = node.return;
               }
-              node2.sibling.return = node2.return;
-              node2 = node2.sibling;
+              node.sibling.return = node.return;
+              node = node.sibling;
             }
           }
           function findLastContentRow(firstChild) {
@@ -17922,28 +17922,28 @@
           var updateHostText$1;
           {
             appendAllChildren = function(parent, workInProgress2, needsVisibilityToggle, isHidden) {
-              var node2 = workInProgress2.child;
-              while (node2 !== null) {
-                if (node2.tag === HostComponent || node2.tag === HostText) {
-                  appendInitialChild(parent, node2.stateNode);
-                } else if (node2.tag === HostPortal)
+              var node = workInProgress2.child;
+              while (node !== null) {
+                if (node.tag === HostComponent || node.tag === HostText) {
+                  appendInitialChild(parent, node.stateNode);
+                } else if (node.tag === HostPortal)
                   ;
-                else if (node2.child !== null) {
-                  node2.child.return = node2;
-                  node2 = node2.child;
+                else if (node.child !== null) {
+                  node.child.return = node;
+                  node = node.child;
                   continue;
                 }
-                if (node2 === workInProgress2) {
+                if (node === workInProgress2) {
                   return;
                 }
-                while (node2.sibling === null) {
-                  if (node2.return === null || node2.return === workInProgress2) {
+                while (node.sibling === null) {
+                  if (node.return === null || node.return === workInProgress2) {
                     return;
                   }
-                  node2 = node2.return;
+                  node = node.return;
                 }
-                node2.sibling.return = node2.return;
-                node2 = node2.sibling;
+                node.sibling.return = node.return;
+                node = node.sibling;
               }
             };
             updateHostContainer = function(current2, workInProgress2) {
@@ -19083,33 +19083,33 @@
               }
             }
           }
-          function reappearLayoutEffectsOnFiber(node2) {
-            switch (node2.tag) {
+          function reappearLayoutEffectsOnFiber(node) {
+            switch (node.tag) {
               case FunctionComponent:
               case ForwardRef:
               case SimpleMemoComponent: {
-                if (node2.mode & ProfileMode) {
+                if (node.mode & ProfileMode) {
                   try {
                     startLayoutEffectTimer();
-                    safelyCallCommitHookLayoutEffectListMount(node2, node2.return);
+                    safelyCallCommitHookLayoutEffectListMount(node, node.return);
                   } finally {
-                    recordLayoutEffectDuration(node2);
+                    recordLayoutEffectDuration(node);
                   }
                 } else {
-                  safelyCallCommitHookLayoutEffectListMount(node2, node2.return);
+                  safelyCallCommitHookLayoutEffectListMount(node, node.return);
                 }
                 break;
               }
               case ClassComponent: {
-                var instance = node2.stateNode;
+                var instance = node.stateNode;
                 if (typeof instance.componentDidMount === "function") {
-                  safelyCallComponentDidMount(node2, node2.return, instance);
+                  safelyCallComponentDidMount(node, node.return, instance);
                 }
-                safelyAttachRef(node2, node2.return);
+                safelyAttachRef(node, node.return);
                 break;
               }
               case HostComponent: {
-                safelyAttachRef(node2, node2.return);
+                safelyAttachRef(node, node.return);
                 break;
               }
             }
@@ -19117,59 +19117,59 @@
           function hideOrUnhideAllChildren(finishedWork, isHidden) {
             var hostSubtreeRoot = null;
             {
-              var node2 = finishedWork;
+              var node = finishedWork;
               while (true) {
-                if (node2.tag === HostComponent) {
+                if (node.tag === HostComponent) {
                   if (hostSubtreeRoot === null) {
-                    hostSubtreeRoot = node2;
+                    hostSubtreeRoot = node;
                     try {
-                      var instance = node2.stateNode;
+                      var instance = node.stateNode;
                       if (isHidden) {
                         hideInstance(instance);
                       } else {
-                        unhideInstance(node2.stateNode, node2.memoizedProps);
+                        unhideInstance(node.stateNode, node.memoizedProps);
                       }
                     } catch (error2) {
                       captureCommitPhaseError(finishedWork, finishedWork.return, error2);
                     }
                   }
-                } else if (node2.tag === HostText) {
+                } else if (node.tag === HostText) {
                   if (hostSubtreeRoot === null) {
                     try {
-                      var _instance3 = node2.stateNode;
+                      var _instance3 = node.stateNode;
                       if (isHidden) {
                         hideTextInstance(_instance3);
                       } else {
-                        unhideTextInstance(_instance3, node2.memoizedProps);
+                        unhideTextInstance(_instance3, node.memoizedProps);
                       }
                     } catch (error2) {
                       captureCommitPhaseError(finishedWork, finishedWork.return, error2);
                     }
                   }
-                } else if ((node2.tag === OffscreenComponent || node2.tag === LegacyHiddenComponent) && node2.memoizedState !== null && node2 !== finishedWork)
+                } else if ((node.tag === OffscreenComponent || node.tag === LegacyHiddenComponent) && node.memoizedState !== null && node !== finishedWork)
                   ;
-                else if (node2.child !== null) {
-                  node2.child.return = node2;
-                  node2 = node2.child;
+                else if (node.child !== null) {
+                  node.child.return = node;
+                  node = node.child;
                   continue;
                 }
-                if (node2 === finishedWork) {
+                if (node === finishedWork) {
                   return;
                 }
-                while (node2.sibling === null) {
-                  if (node2.return === null || node2.return === finishedWork) {
+                while (node.sibling === null) {
+                  if (node.return === null || node.return === finishedWork) {
                     return;
                   }
-                  if (hostSubtreeRoot === node2) {
+                  if (hostSubtreeRoot === node) {
                     hostSubtreeRoot = null;
                   }
-                  node2 = node2.return;
+                  node = node.return;
                 }
-                if (hostSubtreeRoot === node2) {
+                if (hostSubtreeRoot === node) {
                   hostSubtreeRoot = null;
                 }
-                node2.sibling.return = node2.return;
-                node2 = node2.sibling;
+                node.sibling.return = node.return;
+                node = node.sibling;
               }
             }
           }
@@ -19264,30 +19264,30 @@
             return fiber.tag === HostComponent || fiber.tag === HostRoot || fiber.tag === HostPortal;
           }
           function getHostSibling(fiber) {
-            var node2 = fiber;
+            var node = fiber;
             siblings:
               while (true) {
-                while (node2.sibling === null) {
-                  if (node2.return === null || isHostParent(node2.return)) {
+                while (node.sibling === null) {
+                  if (node.return === null || isHostParent(node.return)) {
                     return null;
                   }
-                  node2 = node2.return;
+                  node = node.return;
                 }
-                node2.sibling.return = node2.return;
-                node2 = node2.sibling;
-                while (node2.tag !== HostComponent && node2.tag !== HostText && node2.tag !== DehydratedFragment) {
-                  if (node2.flags & Placement) {
+                node.sibling.return = node.return;
+                node = node.sibling;
+                while (node.tag !== HostComponent && node.tag !== HostText && node.tag !== DehydratedFragment) {
+                  if (node.flags & Placement) {
                     continue siblings;
                   }
-                  if (node2.child === null || node2.tag === HostPortal) {
+                  if (node.child === null || node.tag === HostPortal) {
                     continue siblings;
                   } else {
-                    node2.child.return = node2;
-                    node2 = node2.child;
+                    node.child.return = node;
+                    node = node.child;
                   }
                 }
-                if (!(node2.flags & Placement)) {
-                  return node2.stateNode;
+                if (!(node.flags & Placement)) {
+                  return node.stateNode;
                 }
               }
           }
@@ -19315,11 +19315,11 @@
                 throw new Error("Invalid host parent fiber. This error is likely caused by a bug in React. Please file an issue.");
             }
           }
-          function insertOrAppendPlacementNodeIntoContainer(node2, before, parent) {
-            var tag = node2.tag;
+          function insertOrAppendPlacementNodeIntoContainer(node, before, parent) {
+            var tag = node.tag;
             var isHost = tag === HostComponent || tag === HostText;
             if (isHost) {
-              var stateNode = node2.stateNode;
+              var stateNode = node.stateNode;
               if (before) {
                 insertInContainerBefore(parent, stateNode, before);
               } else {
@@ -19328,7 +19328,7 @@
             } else if (tag === HostPortal)
               ;
             else {
-              var child = node2.child;
+              var child = node.child;
               if (child !== null) {
                 insertOrAppendPlacementNodeIntoContainer(child, before, parent);
                 var sibling = child.sibling;
@@ -19339,11 +19339,11 @@
               }
             }
           }
-          function insertOrAppendPlacementNode(node2, before, parent) {
-            var tag = node2.tag;
+          function insertOrAppendPlacementNode(node, before, parent) {
+            var tag = node.tag;
             var isHost = tag === HostComponent || tag === HostText;
             if (isHost) {
-              var stateNode = node2.stateNode;
+              var stateNode = node.stateNode;
               if (before) {
                 insertBefore(parent, stateNode, before);
               } else {
@@ -19352,7 +19352,7 @@
             } else if (tag === HostPortal)
               ;
             else {
-              var child = node2.child;
+              var child = node.child;
               if (child !== null) {
                 insertOrAppendPlacementNode(child, before, parent);
                 var sibling = child.sibling;
@@ -20729,10 +20729,10 @@
             }
           }
           function isRenderConsistentWithExternalStores(finishedWork) {
-            var node2 = finishedWork;
+            var node = finishedWork;
             while (true) {
-              if (node2.flags & StoreConsistency) {
-                var updateQueue = node2.updateQueue;
+              if (node.flags & StoreConsistency) {
+                var updateQueue = node.updateQueue;
                 if (updateQueue !== null) {
                   var checks = updateQueue.stores;
                   if (checks !== null) {
@@ -20751,23 +20751,23 @@
                   }
                 }
               }
-              var child = node2.child;
-              if (node2.subtreeFlags & StoreConsistency && child !== null) {
-                child.return = node2;
-                node2 = child;
+              var child = node.child;
+              if (node.subtreeFlags & StoreConsistency && child !== null) {
+                child.return = node;
+                node = child;
                 continue;
               }
-              if (node2 === finishedWork) {
+              if (node === finishedWork) {
                 return true;
               }
-              while (node2.sibling === null) {
-                if (node2.return === null || node2.return === finishedWork) {
+              while (node.sibling === null) {
+                if (node.return === null || node.return === finishedWork) {
                   return true;
                 }
-                node2 = node2.return;
+                node = node.return;
               }
-              node2.sibling.return = node2.return;
-              node2 = node2.sibling;
+              node.sibling.return = node.return;
+              node = node.sibling;
             }
             return true;
           }
@@ -22038,50 +22038,50 @@
               if (foundHostInstances) {
                 return;
               }
-              var node2 = fiber;
+              var node = fiber;
               while (true) {
-                switch (node2.tag) {
+                switch (node.tag) {
                   case HostComponent:
-                    hostInstances.add(node2.stateNode);
+                    hostInstances.add(node.stateNode);
                     return;
                   case HostPortal:
-                    hostInstances.add(node2.stateNode.containerInfo);
+                    hostInstances.add(node.stateNode.containerInfo);
                     return;
                   case HostRoot:
-                    hostInstances.add(node2.stateNode.containerInfo);
+                    hostInstances.add(node.stateNode.containerInfo);
                     return;
                 }
-                if (node2.return === null) {
+                if (node.return === null) {
                   throw new Error("Expected to reach root first.");
                 }
-                node2 = node2.return;
+                node = node.return;
               }
             }
           }
           function findChildHostInstancesForFiberShallowly(fiber, hostInstances) {
             {
-              var node2 = fiber;
+              var node = fiber;
               var foundHostInstances = false;
               while (true) {
-                if (node2.tag === HostComponent) {
+                if (node.tag === HostComponent) {
                   foundHostInstances = true;
-                  hostInstances.add(node2.stateNode);
-                } else if (node2.child !== null) {
-                  node2.child.return = node2;
-                  node2 = node2.child;
+                  hostInstances.add(node.stateNode);
+                } else if (node.child !== null) {
+                  node.child.return = node;
+                  node = node.child;
                   continue;
                 }
-                if (node2 === fiber) {
+                if (node === fiber) {
                   return foundHostInstances;
                 }
-                while (node2.sibling === null) {
-                  if (node2.return === null || node2.return === fiber) {
+                while (node.sibling === null) {
+                  if (node.return === null || node.return === fiber) {
                     return foundHostInstances;
                   }
-                  node2 = node2.return;
+                  node = node.return;
                 }
-                node2.sibling.return = node2.return;
-                node2 = node2.sibling;
+                node.sibling.return = node.return;
+                node = node.sibling;
               }
             }
             return false;
@@ -22093,7 +22093,7 @@
               var nonExtensibleObject = Object.preventExtensions({});
               /* @__PURE__ */ new Map([[nonExtensibleObject, null]]);
               /* @__PURE__ */ new Set([nonExtensibleObject]);
-            } catch (e2) {
+            } catch (e) {
               hasBadMapPolyfill = true;
             }
           }
@@ -23141,11 +23141,11 @@
             }
             return new ReactDOMHydrationRoot(root2);
           }
-          function isValidContainer(node2) {
-            return !!(node2 && (node2.nodeType === ELEMENT_NODE || node2.nodeType === DOCUMENT_NODE || node2.nodeType === DOCUMENT_FRAGMENT_NODE || !disableCommentsAsDOMContainers));
+          function isValidContainer(node) {
+            return !!(node && (node.nodeType === ELEMENT_NODE || node.nodeType === DOCUMENT_NODE || node.nodeType === DOCUMENT_FRAGMENT_NODE || !disableCommentsAsDOMContainers));
           }
-          function isValidContainerLegacy(node2) {
-            return !!(node2 && (node2.nodeType === ELEMENT_NODE || node2.nodeType === DOCUMENT_NODE || node2.nodeType === DOCUMENT_FRAGMENT_NODE || node2.nodeType === COMMENT_NODE && node2.nodeValue === " react-mount-point-unstable "));
+          function isValidContainerLegacy(node) {
+            return !!(node && (node.nodeType === ELEMENT_NODE || node.nodeType === DOCUMENT_NODE || node.nodeType === DOCUMENT_FRAGMENT_NODE || node.nodeType === COMMENT_NODE && node.nodeValue === " react-mount-point-unstable "));
           }
           function warnIfReactDOMContainerInDEV(container) {
             {
@@ -23525,11 +23525,11 @@
   });
 
   // src/main.jsx
-  var import_react10 = __toESM(require_react());
+  var import_react11 = __toESM(require_react());
   var import_client2 = __toESM(require_client());
 
   // src/components/Inspect/Inspect.jsx
-  var import_react8 = __toESM(require_react());
+  var import_react9 = __toESM(require_react());
   var import_client = __toESM(require_client());
 
   // src/components/Editor/Editor.jsx
@@ -23548,8 +23548,8 @@
   // src/components/Editor/Select/Select.jsx
   function Select({ id, name, options, onchangeHandler }) {
     const ops = options.map((option, index) => /* @__PURE__ */ import_react.default.createElement(SelectOption, { key: index, value: option }));
-    function onchange(e2) {
-      onchangeHandler(e2.target.value);
+    function onchange(e) {
+      onchangeHandler(e.target.value);
     }
     return /* @__PURE__ */ import_react.default.createElement("div", { className: select_module_default.select }, /* @__PURE__ */ import_react.default.createElement("select", { className: select_module_default["Select-input"], name, id, onChange: onchange }, ops), /* @__PURE__ */ import_react.default.createElement("span", { className: select_module_default["select-icon"] }, /* @__PURE__ */ import_react.default.createElement("i", { className: "ri-arrow-drop-down-fill" })));
   }
@@ -23560,7 +23560,7 @@
   // src/components/common/constants.js
   var constants_default = {
     FONTS: ["Arial", "Verdana", "Tahoma", "Trebuchet MS", "Times New Roman", "Georgia", "Garamond", "Courier New", "Brush Script MT"],
-    FONTWEIGHT: ["Regular", "Bold"],
+    FONTWEIGHT: ["normal", "bold"],
     ALIGN: [
       { label: "<i class='ri-menu-2-line'></i>", value: "left" },
       { label: "<i class='ri-menu-line'></i>", value: "center" },
@@ -23568,8 +23568,8 @@
     ],
     FORMAT: [
       { label: "<i class='ri-subtract-fill'></i>", value: "none" },
-      { label: "Ag", value: "uppercase" },
-      { label: "AA", value: "capitalize" },
+      { label: "Ag", value: "capitalize" },
+      { label: "AA", value: "uppercase" },
       { label: "aa", value: "lowercase" }
     ]
   };
@@ -23582,8 +23582,8 @@
 
   // src/components/Editor/Toggler/Toggler.jsx
   function Toggler({ options, handler }) {
-    function onclickHandler(e2) {
-      handler(e2.currentTarget.value);
+    function onclickHandler(e) {
+      handler(e.currentTarget.value);
     }
     return /* @__PURE__ */ import_react2.default.createElement("div", { className: toggler_module_default.toggler }, options && options.map((option, index) => /* @__PURE__ */ import_react2.default.createElement(TogglerOption, { key: index, value: option.value, label: option.label, onclick: onclickHandler })));
   }
@@ -23596,16 +23596,17 @@
 
   // src/components/Editor/Accordion/accordion.module.css
   var accordion_module_default = {
-    accordion: "accordion_module_accordion"
+    accordion: "accordion_module_accordion",
+    "accordion-body": "accordion_module_accordion-body"
   };
 
   // src/components/Editor/Accordion/Accordion.jsx
   function Accordion({ label, open, children }) {
     let [state, setState] = (0, import_react3.useState)(open);
-    function onclick(e2) {
-      setState(String(!state));
+    function onclick(e) {
+      setState(!state);
     }
-    return /* @__PURE__ */ import_react3.default.createElement("div", { className: accordion_module_default.accordion, "accordion-open": state, onClick: onclick }, /* @__PURE__ */ import_react3.default.createElement("div", { className: accordion_module_default["accordion-header"] }, /* @__PURE__ */ import_react3.default.createElement("span", { className: accordion_module_default["accordion-label"] }, label), /* @__PURE__ */ import_react3.default.createElement("span", { className: accordion_module_default["accordion-icon"] }, /* @__PURE__ */ import_react3.default.createElement("i", { className: "ri-arrow-drop-down-fill" }))), /* @__PURE__ */ import_react3.default.createElement("div", { className: accordion_module_default["accordion-body"] }, children));
+    return /* @__PURE__ */ import_react3.default.createElement("div", { className: accordion_module_default.accordion }, /* @__PURE__ */ import_react3.default.createElement("div", { className: accordion_module_default["accordion-header"], onClick: onclick }, /* @__PURE__ */ import_react3.default.createElement("span", { className: accordion_module_default["accordion-label"] }, label), /* @__PURE__ */ import_react3.default.createElement("span", { className: accordion_module_default["accordion-icon"] }, /* @__PURE__ */ import_react3.default.createElement("i", { className: "ri-arrow-drop-down-fill" }))), /* @__PURE__ */ import_react3.default.createElement("div", { className: accordion_module_default["accordion-body"], "accordion-open": String(state) }, children));
   }
 
   // src/components/Editor/Inputs/InputGrouped.jsx
@@ -23621,10 +23622,12 @@
 
   // src/components/Editor/Inputs/Number.jsx
   function Number2({ id, step, defaultValue, handler }) {
-    function onchange(e2) {
-      handler(e2.target.value);
+    let [value, setValue] = (0, import_react4.useState)(defaultValue);
+    function onchange(e) {
+      setValue(e.target.value);
+      handler(e.target.value);
     }
-    return /* @__PURE__ */ import_react4.default.createElement("input", { className: input_module_default.inputNumber, type: "number", step, id, value: defaultValue, onChange: onchange });
+    return /* @__PURE__ */ import_react4.default.createElement("input", { className: input_module_default.inputNumber, type: "number", step, id, value, onChange: onchange });
   }
 
   // src/components/Editor/Buttons/ButtonGrouped.jsx
@@ -23637,13 +23640,20 @@
 
   // src/components/Editor/Buttons/ButtonGrouped.jsx
   function ButtonGrouped({ defaultValue, step, handler }) {
+    let [value, setValue] = import_react5.default.useState(defaultValue);
     function increase() {
-      handler(defaultValue + step);
+      setValue((prev) => {
+        return prev + step;
+      });
+      handler(value);
     }
     function decrease() {
-      handler(defaultValue - step);
+      setValue((prev) => {
+        return prev - step;
+      });
+      handler(value);
     }
-    return /* @__PURE__ */ import_react5.default.createElement("div", { className: buttonGrouped_module_default.buttonGrouped }, /* @__PURE__ */ import_react5.default.createElement("button", { type: "button", onClick: decrease }, /* @__PURE__ */ import_react5.default.createElement("i", { className: "ri-subtract-fill" })), /* @__PURE__ */ import_react5.default.createElement("button", { type: "button", onClick: increase }, /* @__PURE__ */ import_react5.default.createElement("i", { className: "ri-add-fill" })));
+    return /* @__PURE__ */ import_react5.default.createElement("div", { className: buttonGrouped_module_default.buttonGrouped, value }, /* @__PURE__ */ import_react5.default.createElement("button", { type: "button", onClick: decrease }, /* @__PURE__ */ import_react5.default.createElement("i", { className: "ri-subtract-fill" })), /* @__PURE__ */ import_react5.default.createElement("button", { type: "button", onClick: increase }, /* @__PURE__ */ import_react5.default.createElement("i", { className: "ri-add-fill" })));
   }
 
   // src/components/Editor/Inputs/InputGrouped.jsx
@@ -23654,97 +23664,129 @@
     return /* @__PURE__ */ import_react6.default.createElement("div", null, /* @__PURE__ */ import_react6.default.createElement(Number2, { id, defaultValue: value, step: step || 1, handler: onchange }), /* @__PURE__ */ import_react6.default.createElement(ButtonGrouped, { defaultValue: value, step: step || 1, handler: onchange }));
   }
 
-  // src/components/Editor/Editor.jsx
-  function Editor({ node: node2 }) {
-    let nodeStyle = getNodeStyle(node2);
-    let [style, setStyle] = (0, import_react7.useState)(nodeStyle);
-    if (!node2)
+  // src/utils/utils.js
+  function getNodeStyle(node) {
+    if (!node)
       return;
-    console.log("editor as render", node2, nodeStyle);
+    const id = node.getAttribute("inspector-node-id");
+    const nodeType = node.tagName;
+    const { width, height } = node.getBoundingClientRect();
+    let { fontFamily, fontWeight, fontSize, textAlign, letterSpacing, lineHeight, textTransform } = window.getComputedStyle(node);
+    lineHeight = "normal" ? 1.2 : lineHeight;
+    letterSpacing = "normal" ? 0 : letterSpacing;
+    return { nodeType, id, width, height, fontFamily, fontWeight, fontSize, textAlign, letterSpacing, lineHeight, textTransform };
+  }
+
+  // src/components/Editor/Editor.jsx
+  function Editor({ node, handler }) {
+    if (!node)
+      return;
+    let [style, setStyle] = (0, import_react7.useState)(getNodeStyle(node));
     function onFontChange(value) {
-      setStyle(__spreadProps(__spreadValues({}, style), { fontFamily: value }));
+      setStyle((prev) => {
+        return __spreadProps(__spreadValues({}, prev), { fontFamily: value });
+      });
+      handler(__spreadProps(__spreadValues({}, style), { fontFamily: value }));
     }
     function onWeightChange(value) {
       setStyle(__spreadProps(__spreadValues({}, style), { fontWeight: value }));
+      handler(__spreadProps(__spreadValues({}, style), { fontWeight: value }));
     }
     function OnSizeChange(value) {
       setStyle(__spreadProps(__spreadValues({}, style), { fontSize: value + "px" }));
+      handler(__spreadProps(__spreadValues({}, style), { fontSize: value + "px" }));
     }
     function onAlignChange(value) {
       setStyle(__spreadProps(__spreadValues({}, style), { textAlign: String(value) }));
+      handler(__spreadProps(__spreadValues({}, style), { textAlign: String(value) }));
     }
     function onLineHieghtChange(value) {
-      setStyle(__spreadProps(__spreadValues({}, style), { lineHeight: parseFloat(value) }));
+      setStyle((prev) => {
+        return __spreadProps(__spreadValues({}, prev), { lineHeight: parseFloat(value) });
+      });
+      handler(__spreadProps(__spreadValues({}, style), { lineHeight: parseFloat(value) }));
     }
     function onLetterSpacingChange(value) {
-      setStyle(__spreadProps(__spreadValues({}, style), { letterSpacing: parseInt(value) }));
+      setStyle(__spreadProps(__spreadValues({}, style), { letterSpacing: value + "px" }));
+      handler(__spreadProps(__spreadValues({}, style), { letterSpacing: value + "px" }));
     }
     function onTextTransform(value) {
       setStyle(__spreadProps(__spreadValues({}, style), { textTransform: value }));
+      handler(__spreadProps(__spreadValues({}, style), { textTransform: value }));
     }
-    Object.assign(node2.style, style);
-    return /* @__PURE__ */ import_react7.default.createElement("div", { className: "editor" }, /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "font", label: "Font" }, /* @__PURE__ */ import_react7.default.createElement(Select, { id: "font", name: "fonts", options: constants_default.FONTS, onchangeHandler: onFontChange })), /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "weight", label: "Weight" }, /* @__PURE__ */ import_react7.default.createElement(Select, { id: "weight", name: "styles", options: constants_default.FONTWEIGHT, onchangeHandler: onWeightChange })), /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "size", label: "Size" }, /* @__PURE__ */ import_react7.default.createElement(InputGrouped, { id: "size", value: style.fontSize, onchange: OnSizeChange })), /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "align", label: "Align" }, /* @__PURE__ */ import_react7.default.createElement(Toggler, { options: constants_default.ALIGN, handler: onAlignChange })), /* @__PURE__ */ import_react7.default.createElement(Accordion, { label: "More", open: "false" }, /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "letter-spacing", label: "Letter" }, /* @__PURE__ */ import_react7.default.createElement(InputGrouped, { id: "letter-spaing", step: 0.1, value: style.lineHeight, onchange: onLineHieghtChange })), /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "line-height", label: "Line" }, /* @__PURE__ */ import_react7.default.createElement(InputGrouped, { id: "line-height", value: style.letterSpacing, onchange: onLetterSpacingChange })), /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "transform", label: "Format" }, /* @__PURE__ */ import_react7.default.createElement(Toggler, { options: constants_default.FORMAT, handler: onTextTransform }))), JSON.stringify(style));
+    return /* @__PURE__ */ import_react7.default.createElement("div", { className: "editor" }, /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "font", label: "Font" }, /* @__PURE__ */ import_react7.default.createElement(Select, { id: "font", name: "fonts", options: constants_default.FONTS, onchangeHandler: onFontChange })), /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "weight", label: "Weight" }, /* @__PURE__ */ import_react7.default.createElement(Select, { id: "weight", name: "styles", options: constants_default.FONTWEIGHT, onchangeHandler: onWeightChange })), /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "size", label: "Size" }, /* @__PURE__ */ import_react7.default.createElement(InputGrouped, { id: "size", value: style.fontSize, onchange: OnSizeChange })), /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "align", label: "Align" }, /* @__PURE__ */ import_react7.default.createElement(Toggler, { options: constants_default.ALIGN, handler: onAlignChange })), /* @__PURE__ */ import_react7.default.createElement(Accordion, { label: "More", open: true }, /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "letter-spacing", label: "Letter" }, /* @__PURE__ */ import_react7.default.createElement(InputGrouped, { id: "letter-spacing", value: style.letterSpacing, onchange: onLineHieghtChange })), /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "line-height", label: "Line" }, /* @__PURE__ */ import_react7.default.createElement(InputGrouped, { id: "line-height", step: 0.1, value: style.lineHeight, onchange: onLetterSpacingChange })), /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "transform", label: "Format" }, /* @__PURE__ */ import_react7.default.createElement(Toggler, { options: constants_default.FORMAT, handler: onTextTransform }))), JSON.stringify(style));
   }
   function EditorOption({ targetId, label, children }) {
     return /* @__PURE__ */ import_react7.default.createElement("div", { className: "editor-option" }, /* @__PURE__ */ import_react7.default.createElement("label", { htmlFor: targetId }, label), children);
   }
-  function getNodeStyle(node2) {
-    const { width, height } = node2.getBoundingClientRect();
-    let { fontFamily, fontWeight, fontSize, textAlign, letterSpacing, lineHeight, textTransform } = window.getComputedStyle(node2);
-    fontWeight = "normal" ? "500" : fontStyle;
-    lineHeight = "normal" ? 1.2 : lineHeight;
-    letterSpacing = "normal" ? 0 : letterSpacing;
-    textAlign = "start" ? "left" : textAlign;
-    return { width, height, fontFamily, fontWeight, fontSize, textAlign, letterSpacing, lineHeight, textTransform };
-  }
 
-  // src/components/Inspect/inspect.module.css
-  var inspect_module_default = {
-    inspector: "inspect_module_inspector",
-    node: "inspect_module_node",
-    "node-hovered": "inspect_module_node-hovered",
-    "node-actived": "inspect_module_node-actived",
-    marker: "inspect_module_marker"
+  // src/components/Domnodes/DomNode.jsx
+  var import_react8 = __toESM(require_react());
+
+  // src/components/Domnodes/domnode.module.css
+  var domnode_module_default = {
+    inspector: "domnode_module_inspector",
+    node: "domnode_module_node",
+    "node-hovered": "domnode_module_node-hovered",
+    "node-actived": "domnode_module_node-actived",
+    marker: "domnode_module_marker"
   };
 
-  // src/components/Inspect/Inspect.jsx
-  function Inspect({ disabled, children }) {
-    let [isInspected, setIsInspected] = import_react8.default.useState(false);
-    let node2 = import_react8.default.useRef(null);
-    let [currentNode, setCurrentNode] = import_react8.default.useState(node2);
-    let inspector2 = import_react8.default.useRef(null);
-    if (disabled) {
-      return /* @__PURE__ */ import_react8.default.createElement(import_react8.default.Fragment, null, children);
+  // src/components/Domnodes/DomNode.jsx
+  function DomNodes({ children, style, handler }) {
+    let Node = import_react8.default.useRef(null);
+    let [currentNode, setCurrentNode] = import_react8.default.useState(Node.current);
+    let inspector = import_react8.default.useRef(null);
+    function resetActiveNode(nodes) {
+      nodes.forEach((node) => node.classList.remove(domnode_module_default["node-actived"]));
     }
-    function mouseOverHandler(e2) {
-      inspector2.current = e2.currentTarget;
-      const childNodes = [...inspector2.current.querySelectorAll("*")];
-      const target = e2.target;
-      childNodes.forEach((node3) => {
-        node3.classList.add(inspect_module_default.node);
-        node3.onmouseover = (event) => {
-          event.target.classList.add(inspect_module_default["node-hovered"]);
+    function mouseOverHandler(e) {
+      inspector.current = e.currentTarget;
+      const childNodes = [...inspector.current.querySelectorAll("*")];
+      const target = e.target;
+      childNodes.forEach((node, index) => {
+        node.classList.add(domnode_module_default.node);
+        node.setAttribute("inspector-node-id", String(index));
+        node.onmouseover = (event) => {
+          event.target.classList.add(domnode_module_default["node-hovered"]);
         };
-        node3.onmouseout = (event) => {
-          event.target.classList.remove(inspect_module_default["node-hovered"]);
+        node.onmouseout = (event) => {
+          event.target.classList.remove(domnode_module_default["node-hovered"]);
         };
       });
       target.onclick = (event) => {
         resetActiveNode(childNodes);
-        target.classList.add(inspect_module_default["node-actived"]);
-        node2.current = event.target;
+        target.classList.add(domnode_module_default["node-actived"]);
+        Node.current = target;
         setCurrentNode(target);
-        setIsInspected(true);
+        handler(target);
       };
     }
-    function resetActiveNode(nodes) {
-      nodes.forEach((node3) => node3.classList.remove(inspect_module_default["node-actived"]));
+    if (style) {
+      Object.assign(Node.current.style, style);
     }
-    return /* @__PURE__ */ import_react8.default.createElement(import_react8.default.Fragment, null, /* @__PURE__ */ import_react8.default.createElement("span", { onMouseOver: mouseOverHandler, ref: inspector2, className: inspect_module_default.inspector }, children), isInspected && /* @__PURE__ */ import_react8.default.createElement(Editor, { node: currentNode }));
+    return /* @__PURE__ */ import_react8.default.createElement("span", { onMouseOver: mouseOverHandler, ref: inspector, className: domnode_module_default.inspector }, children);
+  }
+
+  // src/components/Inspect/Inspect.jsx
+  function Inspect({ disabled, children }) {
+    let [currentNode, setCurrentNode] = import_react9.default.useState(null);
+    let [currentNodeStyle, setCurrentNodeStyle] = import_react9.default.useState(null);
+    if (disabled) {
+      return /* @__PURE__ */ import_react9.default.createElement(import_react9.default.Fragment, null, children);
+    }
+    function onStyleChange(style) {
+      setCurrentNodeStyle(style);
+    }
+    function onDomNodeChange(node) {
+      setCurrentNode(node);
+      setCurrentNodeStyle(getNodeStyle(node));
+    }
+    return /* @__PURE__ */ import_react9.default.createElement(import_react9.default.Fragment, null, /* @__PURE__ */ import_react9.default.createElement(DomNodes, { handler: onDomNodeChange, style: currentNodeStyle }, children), /* @__PURE__ */ import_react9.default.createElement(Editor, { node: currentNode, handler: onStyleChange }));
   }
 
   // src/components/App/app.jsx
-  var import_react9 = __toESM(require_react());
+  var import_react10 = __toESM(require_react());
 
   // src/components/App/app.module.css
   var app_module_default = {
@@ -23754,15 +23796,15 @@
   // src/components/App/app.jsx
   function App() {
     const text = "Hello world";
-    return /* @__PURE__ */ import_react9.default.createElement("div", { className: app_module_default.app }, /* @__PURE__ */ import_react9.default.createElement("h1", null, text), /* @__PURE__ */ import_react9.default.createElement("p", null, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure officia, iste cum suscipit delectus aliquam. Saepe obcaecati ea recusandae laudantium cupiditate inventore expedita officiis explicabo ullam accusantium, atque commodi quod cum voluptatem modi id minima quam aperiam magni harum sed dolor tenetur nemo facilis. Odit a doloribus in numquam itaque."));
+    return /* @__PURE__ */ import_react10.default.createElement("div", { className: app_module_default.app }, /* @__PURE__ */ import_react10.default.createElement("h1", null, text), /* @__PURE__ */ import_react10.default.createElement("p", null, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure officia, iste cum suscipit delectus aliquam. Saepe obcaecati ea recusandae laudantium cupiditate inventore expedita officiis explicabo ullam accusantium, atque commodi quod cum voluptatem modi id minima quam aperiam magni harum sed dolor tenetur nemo facilis. Odit a doloribus in numquam itaque."));
   }
 
   // src/main.jsx
   function Main() {
-    return /* @__PURE__ */ import_react10.default.createElement(App, null);
+    return /* @__PURE__ */ import_react11.default.createElement(App, null);
   }
   import_client2.default.createRoot(document.getElementById("root")).render(
-    /* @__PURE__ */ import_react10.default.createElement(import_react10.default.StrictMode, null, /* @__PURE__ */ import_react10.default.createElement(Inspect, { disabled: false }, /* @__PURE__ */ import_react10.default.createElement(Main, null)))
+    /* @__PURE__ */ import_react11.default.createElement(import_react11.default.StrictMode, null, /* @__PURE__ */ import_react11.default.createElement(Inspect, { disabled: false }, /* @__PURE__ */ import_react11.default.createElement(Main, null)))
   );
 })();
 /*! Bundled license information:

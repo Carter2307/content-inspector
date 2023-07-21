@@ -5,18 +5,20 @@ export default function Accordion({ label, open, children }) {
 	let [state, setState] = useState(open);
 
 	function onclick(e) {
-		setState(String(!state));
+		setState(!state);
 	}
 
 	return (
-		<div className={css.accordion} accordion-open={state} onClick={onclick}>
-			<div className={css["accordion-header"]}>
+		<div className={css.accordion}>
+			<div className={css["accordion-header"]} onClick={onclick}>
 				<span className={css["accordion-label"]}>{label}</span>
 				<span className={css["accordion-icon"]}>
 					<i className="ri-arrow-drop-down-fill"></i>
 				</span>
 			</div>
-			<div className={css["accordion-body"]}>{children}</div>
+			<div className={css["accordion-body"]} accordion-open={String(state)}>
+				{children}
+			</div>
 		</div>
 	);
 }

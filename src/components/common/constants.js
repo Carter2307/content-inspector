@@ -1,6 +1,6 @@
 export default {
 	FONTS: ["Arial", "Verdana", "Tahoma", "Trebuchet MS", "Times New Roman", "Georgia", "Garamond", "Courier New", "Brush Script MT"],
-	FONTWEIGHT: ["Regular", "Bold"],
+	FONTWEIGHT: ["normal", "bold"],
 	ALIGN: [
 		{ label: "<i class='ri-menu-2-line'></i>", value: "left" },
 		{ label: "<i class='ri-menu-line'></i>", value: "center" },
@@ -8,8 +8,8 @@ export default {
 	],
 	FORMAT: [
 		{ label: "<i class='ri-subtract-fill'></i>", value: "none" },
-		{ label: "Ag", value: "uppercase" },
-		{ label: "AA", value: "capitalize" },
+		{ label: "Ag", value: "capitalize" },
+		{ label: "AA", value: "uppercase" },
 		{ label: "aa", value: "lowercase" },
 	],
 };

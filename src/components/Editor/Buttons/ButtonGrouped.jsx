@@ -2,16 +2,26 @@ import React from "react";
 import css from "./buttonGrouped.module.css";
 
 export default function ButtonGrouped({ defaultValue, step, handler }) {
+	let [value, setValue] = React.useState(defaultValue);
+
 	function increase() {
-		handler(defaultValue + step);
+		setValue((prev) => {
+			return prev + step;
+		});
+
+		handler(value);
 	}
 
 	function decrease() {
-		handler(defaultValue - step);
+		setValue((prev) => {
+			return prev - step;
+		});
+
+		handler(value);
 	}
 
 	return (
-		<div className={css.buttonGrouped}>
+		<div className={css.buttonGrouped} value={value}>
 			<button type="button" onClick={decrease}>
 				<i className="ri-subtract-fill"></i>
 			</button>

@@ -16,10 +16,10 @@
 /* src/components/Editor/Accordion/accordion.module.css */
 .accordion_module_accordion {
 }
-.accordion_module_accordion[accordion-open=false] {
+.accordion_module_accordion-body[accordion-open=false] {
   display: none;
 }
-.accordion_module_accordion[accordion-open=true] {
+.accordion_module_accordion-body[accordion-open=true] {
   display: flex;
 }
 
@@ -35,20 +35,20 @@ input {
 .buttonGrouped_module_buttonGrouped button {
 }
 
-/* src/components/Inspect/inspect.module.css */
-.inspect_module_inspector {
+/* src/components/Domnodes/domnode.module.css */
+.domnode_module_inspector {
 }
-.inspect_module_node {
+.domnode_module_node {
   position: relative;
   user-select: none;
 }
-.inspect_module_node.inspect_module_node-hovered:hover::after {
+.domnode_module_node.domnode_module_node-hovered:hover::after {
   background-color: rgb(225, 244, 255);
 }
-.inspect_module_node.inspect_module_node-actived::after {
+.domnode_module_node.domnode_module_node-actived::after {
   background-color: rgb(184, 230, 255);
 }
-.inspect_module_node::after {
+.domnode_module_node::after {
   content: "";
   width: calc(100% - 4px);
   height: 100%;
@@ -57,7 +57,7 @@ input {
   top: 0;
   z-index: -1;
 }
-.inspect_module_marker {
+.domnode_module_marker {
   padding: 4px 6px;
   border-radius: 4px;
   font-size: 10px;
