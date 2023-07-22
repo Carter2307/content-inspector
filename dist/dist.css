@@ -35,8 +35,30 @@ input {
 .buttonGrouped_module_buttonGrouped button {
 }
 
+/* src/utils/Debugger/debugger.module.css */
+.debugger_module_debugger {
+  display: inline-block;
+  padding: 0.5rem;
+  margin: 4px 0;
+  border-radius: 4px;
+  background-color: rgb(255, 240, 240);
+  border: 1px solid rgb(255, 156, 156);
+}
+
+/* src/components/Editor/editor.module.css */
+.editor_module_editor {
+  --base-font: 16px;
+  max-width: 240px;
+}
+
 /* src/components/Domnodes/domnode.module.css */
 .domnode_module_inspector {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.domnode_module_canva {
+  flex: none;
+  width: 100%;
 }
 .domnode_module_node {
   position: relative;
@@ -60,7 +82,7 @@ input {
 .domnode_module_marker {
   padding: 4px 6px;
   border-radius: 4px;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 600;
   position: absolute;
   background-color: rgb(20, 139, 244);

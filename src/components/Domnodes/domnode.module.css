@@ -1,4 +1,11 @@
 .inspector {
+	display: flex;
+	flex-wrap: nowrap;
+}
+
+.canva {
+	flex: none;
+	width: 100%;
 }
 
 .node {
@@ -27,7 +34,7 @@
 .marker {
 	padding: 4px 6px;
 	border-radius: 4px;
-	font-size: 10px;
+	font-size: 14px;
 	font-weight: 600;
 	position: absolute;
 	background-color: rgb(20, 139, 244);

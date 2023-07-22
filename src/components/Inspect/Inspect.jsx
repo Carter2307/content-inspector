@@ -1,32 +1,30 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
 import Editor from "../Editor/Editor";
 import DomNodes from "../Domnodes/DomNode";
-import { getNodeStyle } from "../../utils/utils";
+import css from "../Domnodes/domnode.module.css";
 
 export default function Inspect({ disabled, children }) {
 	let [currentNode, setCurrentNode] = React.useState(null);
-	let [currentNodeStyle, setCurrentNodeStyle] = React.useState(null);
+	let [currentNodeStyle, setCurrentNodeStyle] = React.useState({});
 
 	if (disabled) {
 		return <>{children}</>;
 	}
 
-	function onStyleChange(style) {
+	function onStyleChange(style, node) {
+		setCurrentNodeStyle(style);
+		Object.assign(node.style, style);
+	}
+
+	function onDomNodeChange(node, style) {
+		setCurrentNode(node);
 		setCurrentNodeStyle(style);
 	}
 
-	function onDomNodeChange(node) {
-		setCurrentNode(node);
-		setCurrentNodeStyle(getNodeStyle(node));
-	}
-
 	return (
-		<React.Fragment>
-			<DomNodes handler={onDomNodeChange} style={currentNodeStyle}>
-				{children}
-			</DomNodes>
-			<Editor node={currentNode} handler={onStyleChange}></Editor>
-		</React.Fragment>
+		<div className={css.inspector}>
+			<DomNodes handler={onDomNodeChange}>{children}</DomNodes>
+			<Editor node={currentNode} style={currentNodeStyle} handler={onStyleChange}></Editor>
+		</div>
 	);
 }

@@ -2399,9 +2399,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React12 = require_react();
+          var React13 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React12.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React13.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -4006,7 +4006,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React12.Children.forEach(props.children, function(child) {
+                  React13.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -12453,7 +12453,7 @@
             }
           }
           var fakeInternalInstance = {};
-          var emptyRefsObject = new React12.Component().refs;
+          var emptyRefsObject = new React13.Component().refs;
           var didWarnAboutStateAssignmentForComponent;
           var didWarnAboutUninitializedState;
           var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -23525,15 +23525,14 @@
   });
 
   // src/main.jsx
-  var import_react11 = __toESM(require_react());
-  var import_client2 = __toESM(require_client());
-
-  // src/components/Inspect/Inspect.jsx
-  var import_react9 = __toESM(require_react());
+  var import_react12 = __toESM(require_react());
   var import_client = __toESM(require_client());
 
+  // src/components/Inspect/Inspect.jsx
+  var import_react10 = __toESM(require_react());
+
   // src/components/Editor/Editor.jsx
-  var import_react7 = __toESM(require_react());
+  var import_react8 = __toESM(require_react());
 
   // src/components/Editor/Select/Select.jsx
   var import_react = __toESM(require_react());
@@ -23545,13 +23544,36 @@
     "select-icon": "select_module_select-icon"
   };
 
+  // src/utils/utils.js
+  function getNodeStyle(node) {
+    if (!node)
+      return;
+    const id = node.getAttribute("inspector-node-id");
+    const nodeType = node.tagName;
+    const { width, height } = node.getBoundingClientRect();
+    let { fontFamily, fontWeight, fontSize, textAlign, letterSpacing, lineHeight, textTransform } = window.getComputedStyle(node);
+    if (fontWeight == "normal") {
+      fontWeight = 400;
+    } else if (fontWeight == "bold") {
+      fontWeight = 700;
+    }
+    lineHeight = "normal" ? 1.2 : lineHeight;
+    letterSpacing = "normal" ? 0 : letterSpacing;
+    return { nodeType, id, width, height, fontFamily, fontWeight, fontSize, textAlign, letterSpacing, lineHeight, textTransform };
+  }
+  function removeQuoteToString(string) {
+    let arr = string.split('"');
+    return arr.length == 1 ? arr[0] : arr[1];
+  }
+
   // src/components/Editor/Select/Select.jsx
-  function Select({ id, name, options, onchangeHandler }) {
+  function Select({ id, name, defaultValue, options, onchangeHandler }) {
+    console.log(defaultValue, removeQuoteToString(defaultValue));
     const ops = options.map((option, index) => /* @__PURE__ */ import_react.default.createElement(SelectOption, { key: index, value: option }));
     function onchange(e) {
       onchangeHandler(e.target.value);
     }
-    return /* @__PURE__ */ import_react.default.createElement("div", { className: select_module_default.select }, /* @__PURE__ */ import_react.default.createElement("select", { className: select_module_default["Select-input"], name, id, onChange: onchange }, ops), /* @__PURE__ */ import_react.default.createElement("span", { className: select_module_default["select-icon"] }, /* @__PURE__ */ import_react.default.createElement("i", { className: "ri-arrow-drop-down-fill" })));
+    return /* @__PURE__ */ import_react.default.createElement("div", { className: select_module_default.select }, /* @__PURE__ */ import_react.default.createElement("select", { className: select_module_default["Select-input"], value: removeQuoteToString(defaultValue), name, id, onChange: onchange }, ops), /* @__PURE__ */ import_react.default.createElement("span", { className: select_module_default["select-icon"] }, /* @__PURE__ */ import_react.default.createElement("i", { className: "ri-arrow-drop-down-fill" })));
   }
   function SelectOption({ value }) {
     return /* @__PURE__ */ import_react.default.createElement("option", { value }, value);
@@ -23560,7 +23582,7 @@
   // src/components/common/constants.js
   var constants_default = {
     FONTS: ["Arial", "Verdana", "Tahoma", "Trebuchet MS", "Times New Roman", "Georgia", "Garamond", "Courier New", "Brush Script MT"],
-    FONTWEIGHT: ["normal", "bold"],
+    FONTWEIGHT: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
     ALIGN: [
       { label: "<i class='ri-menu-2-line'></i>", value: "left" },
       { label: "<i class='ri-menu-line'></i>", value: "center" },
@@ -23610,7 +23632,7 @@
   }
 
   // src/components/Editor/Inputs/InputGrouped.jsx
-  var import_react6 = __toESM(require_react());
+  var import_react7 = __toESM(require_react());
 
   // src/components/Editor/Inputs/Number.jsx
   var import_react4 = __toESM(require_react());
@@ -23622,12 +23644,10 @@
 
   // src/components/Editor/Inputs/Number.jsx
   function Number2({ id, step, defaultValue, handler }) {
-    let [value, setValue] = (0, import_react4.useState)(defaultValue);
     function onchange(e) {
-      setValue(e.target.value);
-      handler(e.target.value);
+      handler(parseFloat(e.target.value));
     }
-    return /* @__PURE__ */ import_react4.default.createElement("input", { className: input_module_default.inputNumber, type: "number", step, id, value, onChange: onchange });
+    return /* @__PURE__ */ import_react4.default.createElement("input", { className: input_module_default.inputNumber, type: "number", step: String(step), id, value: defaultValue, onChange: onchange });
   }
 
   // src/components/Editor/Buttons/ButtonGrouped.jsx
@@ -23640,92 +23660,85 @@
 
   // src/components/Editor/Buttons/ButtonGrouped.jsx
   function ButtonGrouped({ defaultValue, step, handler }) {
-    let [value, setValue] = import_react5.default.useState(defaultValue);
     function increase() {
-      setValue((prev) => {
-        return prev + step;
-      });
-      handler(value);
+      const calc = defaultValue + step;
+      handler(Math.round(calc * 100) / 100);
     }
     function decrease() {
-      setValue((prev) => {
-        return prev - step;
-      });
-      handler(value);
+      const calc = defaultValue - step;
+      handler(Math.round(calc * 100) / 100);
     }
-    return /* @__PURE__ */ import_react5.default.createElement("div", { className: buttonGrouped_module_default.buttonGrouped, value }, /* @__PURE__ */ import_react5.default.createElement("button", { type: "button", onClick: decrease }, /* @__PURE__ */ import_react5.default.createElement("i", { className: "ri-subtract-fill" })), /* @__PURE__ */ import_react5.default.createElement("button", { type: "button", onClick: increase }, /* @__PURE__ */ import_react5.default.createElement("i", { className: "ri-add-fill" })));
+    return /* @__PURE__ */ import_react5.default.createElement("div", { className: buttonGrouped_module_default.buttonGrouped }, /* @__PURE__ */ import_react5.default.createElement("button", { type: "button", onClick: decrease }, /* @__PURE__ */ import_react5.default.createElement("i", { className: "ri-subtract-fill" })), /* @__PURE__ */ import_react5.default.createElement("button", { type: "button", onClick: increase }, /* @__PURE__ */ import_react5.default.createElement("i", { className: "ri-add-fill" })));
   }
+
+  // src/utils/Debugger/Debugger.jsx
+  var import_react6 = __toESM(require_react());
 
   // src/components/Editor/Inputs/InputGrouped.jsx
-  function InputGrouped({ id, step, value, onchange }) {
+  function InputGrouped({ id, step, defaultValue, onchange }) {
+    let value = defaultValue;
     if (typeof value === "string") {
-      value = parseInt(value.split("p")[0]);
+      value = parseFloat(value.split("p")[0]);
     }
-    return /* @__PURE__ */ import_react6.default.createElement("div", null, /* @__PURE__ */ import_react6.default.createElement(Number2, { id, defaultValue: value, step: step || 1, handler: onchange }), /* @__PURE__ */ import_react6.default.createElement(ButtonGrouped, { defaultValue: value, step: step || 1, handler: onchange }));
+    function onchangeHandler(v) {
+      value = v;
+      onchange(value);
+    }
+    return /* @__PURE__ */ import_react7.default.createElement("div", null, /* @__PURE__ */ import_react7.default.createElement(Number2, { id, defaultValue: value, step: step || 1, handler: onchangeHandler }), /* @__PURE__ */ import_react7.default.createElement(ButtonGrouped, { defaultValue: value, step: step || 1, handler: onchangeHandler }));
   }
 
-  // src/utils/utils.js
-  function getNodeStyle(node) {
-    if (!node)
-      return;
-    const id = node.getAttribute("inspector-node-id");
-    const nodeType = node.tagName;
-    const { width, height } = node.getBoundingClientRect();
-    let { fontFamily, fontWeight, fontSize, textAlign, letterSpacing, lineHeight, textTransform } = window.getComputedStyle(node);
-    lineHeight = "normal" ? 1.2 : lineHeight;
-    letterSpacing = "normal" ? 0 : letterSpacing;
-    return { nodeType, id, width, height, fontFamily, fontWeight, fontSize, textAlign, letterSpacing, lineHeight, textTransform };
-  }
+  // src/components/Editor/editor.module.css
+  var editor_module_default = {
+    editor: "editor_module_editor"
+  };
 
   // src/components/Editor/Editor.jsx
-  function Editor({ node, handler }) {
+  function Editor({ node, style, handler }) {
     if (!node)
       return;
-    let [style, setStyle] = (0, import_react7.useState)(getNodeStyle(node));
     function onFontChange(value) {
-      setStyle((prev) => {
-        return __spreadProps(__spreadValues({}, prev), { fontFamily: value });
-      });
-      handler(__spreadProps(__spreadValues({}, style), { fontFamily: value }));
+      handler(__spreadProps(__spreadValues({}, style), { fontFamily: value }), node);
     }
     function onWeightChange(value) {
-      setStyle(__spreadProps(__spreadValues({}, style), { fontWeight: value }));
-      handler(__spreadProps(__spreadValues({}, style), { fontWeight: value }));
+      handler(__spreadProps(__spreadValues({}, style), { fontWeight: value }), node);
     }
     function OnSizeChange(value) {
-      setStyle(__spreadProps(__spreadValues({}, style), { fontSize: value + "px" }));
-      handler(__spreadProps(__spreadValues({}, style), { fontSize: value + "px" }));
+      handler(__spreadProps(__spreadValues({}, style), { fontSize: value + "px" }), node);
     }
     function onAlignChange(value) {
-      setStyle(__spreadProps(__spreadValues({}, style), { textAlign: String(value) }));
-      handler(__spreadProps(__spreadValues({}, style), { textAlign: String(value) }));
+      handler(__spreadProps(__spreadValues({}, style), { textAlign: String(value) }), node);
     }
     function onLineHieghtChange(value) {
-      setStyle((prev) => {
-        return __spreadProps(__spreadValues({}, prev), { lineHeight: parseFloat(value) });
-      });
-      handler(__spreadProps(__spreadValues({}, style), { lineHeight: parseFloat(value) }));
+      handler(__spreadProps(__spreadValues({}, style), { lineHeight: parseFloat(value) }), node);
     }
     function onLetterSpacingChange(value) {
-      setStyle(__spreadProps(__spreadValues({}, style), { letterSpacing: value + "px" }));
-      handler(__spreadProps(__spreadValues({}, style), { letterSpacing: value + "px" }));
+      handler(__spreadProps(__spreadValues({}, style), { letterSpacing: value + "px" }), node);
     }
     function onTextTransform(value) {
-      setStyle(__spreadProps(__spreadValues({}, style), { textTransform: value }));
-      handler(__spreadProps(__spreadValues({}, style), { textTransform: value }));
+      handler(__spreadProps(__spreadValues({}, style), { textTransform: value }), node);
     }
-    return /* @__PURE__ */ import_react7.default.createElement("div", { className: "editor" }, /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "font", label: "Font" }, /* @__PURE__ */ import_react7.default.createElement(Select, { id: "font", name: "fonts", options: constants_default.FONTS, onchangeHandler: onFontChange })), /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "weight", label: "Weight" }, /* @__PURE__ */ import_react7.default.createElement(Select, { id: "weight", name: "styles", options: constants_default.FONTWEIGHT, onchangeHandler: onWeightChange })), /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "size", label: "Size" }, /* @__PURE__ */ import_react7.default.createElement(InputGrouped, { id: "size", value: style.fontSize, onchange: OnSizeChange })), /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "align", label: "Align" }, /* @__PURE__ */ import_react7.default.createElement(Toggler, { options: constants_default.ALIGN, handler: onAlignChange })), /* @__PURE__ */ import_react7.default.createElement(Accordion, { label: "More", open: true }, /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "letter-spacing", label: "Letter" }, /* @__PURE__ */ import_react7.default.createElement(InputGrouped, { id: "letter-spacing", value: style.letterSpacing, onchange: onLineHieghtChange })), /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "line-height", label: "Line" }, /* @__PURE__ */ import_react7.default.createElement(InputGrouped, { id: "line-height", step: 0.1, value: style.lineHeight, onchange: onLetterSpacingChange })), /* @__PURE__ */ import_react7.default.createElement(EditorOption, { targetId: "transform", label: "Format" }, /* @__PURE__ */ import_react7.default.createElement(Toggler, { options: constants_default.FORMAT, handler: onTextTransform }))), JSON.stringify(style));
+    return /* @__PURE__ */ import_react8.default.createElement("div", { className: editor_module_default.editor }, /* @__PURE__ */ import_react8.default.createElement(EditorOption, { targetId: "font", label: "Font" }, /* @__PURE__ */ import_react8.default.createElement(Select, { id: "font", defaultValue: style.fontFamily, name: "fonts", options: constants_default.FONTS, onchangeHandler: onFontChange })), /* @__PURE__ */ import_react8.default.createElement(EditorOption, { targetId: "weight", label: "Weight" }, /* @__PURE__ */ import_react8.default.createElement(
+      Select,
+      {
+        id: "weight",
+        name: "weight",
+        defaultValue: style.fontWeight,
+        options: constants_default.FONTWEIGHT,
+        onchangeHandler: onWeightChange
+      }
+    )), /* @__PURE__ */ import_react8.default.createElement(EditorOption, { targetId: "size", label: "Size" }, /* @__PURE__ */ import_react8.default.createElement(InputGrouped, { id: "size", defaultValue: style.fontSize, onchange: OnSizeChange })), /* @__PURE__ */ import_react8.default.createElement(EditorOption, { targetId: "align", label: "Align" }, /* @__PURE__ */ import_react8.default.createElement(Toggler, { options: constants_default.ALIGN, handler: onAlignChange })), /* @__PURE__ */ import_react8.default.createElement(Accordion, { label: "More", open: true }, /* @__PURE__ */ import_react8.default.createElement(EditorOption, { targetId: "letter-spacing", label: "Letter" }, /* @__PURE__ */ import_react8.default.createElement(InputGrouped, { id: "letter-spacing", defaultValue: style.letterSpacing, onchange: onLetterSpacingChange })), /* @__PURE__ */ import_react8.default.createElement(EditorOption, { targetId: "line-height", label: "Line" }, /* @__PURE__ */ import_react8.default.createElement(InputGrouped, { id: "line-height", step: 0.1, defaultValue: style.lineHeight, onchange: onLineHieghtChange })), /* @__PURE__ */ import_react8.default.createElement(EditorOption, { targetId: "transform", label: "Format" }, /* @__PURE__ */ import_react8.default.createElement(Toggler, { options: constants_default.FORMAT, handler: onTextTransform }))));
   }
   function EditorOption({ targetId, label, children }) {
-    return /* @__PURE__ */ import_react7.default.createElement("div", { className: "editor-option" }, /* @__PURE__ */ import_react7.default.createElement("label", { htmlFor: targetId }, label), children);
+    return /* @__PURE__ */ import_react8.default.createElement("div", { className: "editor-option" }, /* @__PURE__ */ import_react8.default.createElement("label", { htmlFor: targetId }, label), children);
   }
 
   // src/components/Domnodes/DomNode.jsx
-  var import_react8 = __toESM(require_react());
+  var import_react9 = __toESM(require_react());
 
   // src/components/Domnodes/domnode.module.css
   var domnode_module_default = {
     inspector: "domnode_module_inspector",
+    canva: "domnode_module_canva",
     node: "domnode_module_node",
     "node-hovered": "domnode_module_node-hovered",
     "node-actived": "domnode_module_node-actived",
@@ -23733,14 +23746,15 @@
   };
 
   // src/components/Domnodes/DomNode.jsx
-  function DomNodes({ children, style, handler }) {
-    let Node = import_react8.default.useRef(null);
-    let [currentNode, setCurrentNode] = import_react8.default.useState(Node.current);
-    let inspector = import_react8.default.useRef(null);
+  function DomNodes({ children, handler }) {
+    let Node = import_react9.default.useRef(null);
+    let [currentNode, setCurrentNode] = import_react9.default.useState(Node.current);
+    let inspector = import_react9.default.useRef(null);
     function resetActiveNode(nodes) {
       nodes.forEach((node) => node.classList.remove(domnode_module_default["node-actived"]));
     }
     function mouseOverHandler(e) {
+      e.stopPropagation();
       inspector.current = e.currentTarget;
       const childNodes = [...inspector.current.querySelectorAll("*")];
       const target = e.target;
@@ -23749,6 +23763,10 @@
         node.setAttribute("inspector-node-id", String(index));
         node.onmouseover = (event) => {
           event.target.classList.add(domnode_module_default["node-hovered"]);
+          uninspectSize(node, index);
+        };
+        node.onmouseleave = (event) => {
+          inspectSize(node, index);
         };
         node.onmouseout = (event) => {
           event.target.classList.remove(domnode_module_default["node-hovered"]);
@@ -23759,34 +23777,56 @@
         target.classList.add(domnode_module_default["node-actived"]);
         Node.current = target;
         setCurrentNode(target);
-        handler(target);
+        handler(target, getNodeStyle(target));
       };
     }
-    if (style) {
-      Object.assign(Node.current.style, style);
-    }
-    return /* @__PURE__ */ import_react8.default.createElement("span", { onMouseOver: mouseOverHandler, ref: inspector, className: domnode_module_default.inspector }, children);
+    return /* @__PURE__ */ import_react9.default.createElement("span", { onMouseOver: mouseOverHandler, ref: inspector, className: domnode_module_default.canva }, children);
+  }
+  function uninspectSize(node, nodeId) {
+    const marker = document.getElementById(`marker-${nodeId}`);
+    if (!marker)
+      return;
+    marker.remove();
+  }
+  function inspectSize(node, nodeId) {
+    const gap = 16;
+    node.setAttribute("node-inspector-active", "");
+    const { width, height, top, bottom, left, right } = node.getBoundingClientRect();
+    const x = left + width / 2;
+    const y = top + height + gap / 2;
+    const value = `${width} x ${height}`;
+    createMarker(x, y, value, nodeId);
+  }
+  function createMarker(x, y, value, id) {
+    const marker = document.createElement("marker");
+    marker.id = "marker-" + id;
+    marker.classList.add(domnode_module_default.marker);
+    marker.textContent = value;
+    marker.style.left = x + "px";
+    marker.style.top = y + "px";
+    document.body.appendChild(marker);
   }
 
   // src/components/Inspect/Inspect.jsx
   function Inspect({ disabled, children }) {
-    let [currentNode, setCurrentNode] = import_react9.default.useState(null);
-    let [currentNodeStyle, setCurrentNodeStyle] = import_react9.default.useState(null);
+    let [currentNode, setCurrentNode] = import_react10.default.useState(null);
+    let [currentNodeStyle, setCurrentNodeStyle] = import_react10.default.useState({});
     if (disabled) {
-      return /* @__PURE__ */ import_react9.default.createElement(import_react9.default.Fragment, null, children);
+      return /* @__PURE__ */ import_react10.default.createElement(import_react10.default.Fragment, null, children);
     }
-    function onStyleChange(style) {
+    function onStyleChange(style, node) {
+      setCurrentNodeStyle(style);
+      Object.assign(node.style, style);
+    }
+    function onDomNodeChange(node, style) {
+      setCurrentNode(node);
       setCurrentNodeStyle(style);
     }
-    function onDomNodeChange(node) {
-      setCurrentNode(node);
-      setCurrentNodeStyle(getNodeStyle(node));
-    }
-    return /* @__PURE__ */ import_react9.default.createElement(import_react9.default.Fragment, null, /* @__PURE__ */ import_react9.default.createElement(DomNodes, { handler: onDomNodeChange, style: currentNodeStyle }, children), /* @__PURE__ */ import_react9.default.createElement(Editor, { node: currentNode, handler: onStyleChange }));
+    return /* @__PURE__ */ import_react10.default.createElement("div", { className: domnode_module_default.inspector }, /* @__PURE__ */ import_react10.default.createElement(DomNodes, { handler: onDomNodeChange }, children), /* @__PURE__ */ import_react10.default.createElement(Editor, { node: currentNode, style: currentNodeStyle, handler: onStyleChange }));
   }
 
   // src/components/App/app.jsx
-  var import_react10 = __toESM(require_react());
+  var import_react11 = __toESM(require_react());
 
   // src/components/App/app.module.css
   var app_module_default = {
@@ -23796,15 +23836,15 @@
   // src/components/App/app.jsx
   function App() {
     const text = "Hello world";
-    return /* @__PURE__ */ import_react10.default.createElement("div", { className: app_module_default.app }, /* @__PURE__ */ import_react10.default.createElement("h1", null, text), /* @__PURE__ */ import_react10.default.createElement("p", null, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure officia, iste cum suscipit delectus aliquam. Saepe obcaecati ea recusandae laudantium cupiditate inventore expedita officiis explicabo ullam accusantium, atque commodi quod cum voluptatem modi id minima quam aperiam magni harum sed dolor tenetur nemo facilis. Odit a doloribus in numquam itaque."));
+    return /* @__PURE__ */ import_react11.default.createElement("div", { className: app_module_default.app }, /* @__PURE__ */ import_react11.default.createElement("h1", null, text), /* @__PURE__ */ import_react11.default.createElement("p", null, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure officia, iste cum suscipit delectus aliquam. Saepe obcaecati ea recusandae laudantium cupiditate inventore expedita officiis explicabo ullam accusantium, atque commodi quod cum voluptatem modi id minima quam aperiam magni harum sed dolor tenetur nemo facilis. Odit a doloribus in numquam itaque."));
   }
 
   // src/main.jsx
   function Main() {
-    return /* @__PURE__ */ import_react11.default.createElement(App, null);
+    return /* @__PURE__ */ import_react12.default.createElement(App, null);
   }
-  import_client2.default.createRoot(document.getElementById("root")).render(
-    /* @__PURE__ */ import_react11.default.createElement(import_react11.default.StrictMode, null, /* @__PURE__ */ import_react11.default.createElement(Inspect, { disabled: false }, /* @__PURE__ */ import_react11.default.createElement(Main, null)))
+  import_client.default.createRoot(document.getElementById("root")).render(
+    /* @__PURE__ */ import_react12.default.createElement(import_react12.default.StrictMode, null, /* @__PURE__ */ import_react12.default.createElement(Inspect, { disabled: false }, /* @__PURE__ */ import_react12.default.createElement(Main, null)))
   );
 })();
 /*! Bundled license information:

@@ -1,7 +1,8 @@
 import React from "react";
 import css from "./domnode.module.css";
+import { getNodeStyle } from "../../utils/utils";
 
-export default function DomNodes({ children, style, handler }) {
+export default function DomNodes({ children, handler }) {
 	let Node = React.useRef(null);
 	let [currentNode, setCurrentNode] = React.useState(Node.current);
 	let inspector = React.useRef(null);
@@ -11,6 +12,7 @@ export default function DomNodes({ children, style, handler }) {
 	}
 
 	function mouseOverHandler(e) {
+		e.stopPropagation();
 		inspector.current = e.currentTarget; // lorsque la souris survole la span.inspector je sauvegade l'élément qui à appéler l'événement
 
 		const childNodes = [...inspector.current.querySelectorAll("*")]; //Je sauvegarde dans un tableau tous les enfants de cette span
@@ -23,6 +25,11 @@ export default function DomNodes({ children, style, handler }) {
 			node.onmouseover = (event) => {
 				// Lorsque la souris survole l'élément
 				event.target.classList.add(css["node-hovered"]); // J'ajoute la classe ".node-hovered"
+				uninspectSize(node, index);
+			};
+
+			node.onmouseleave = (event) => {
+				inspectSize(node, index);
 			};
 
 			node.onmouseout = (event) => {
@@ -38,24 +45,24 @@ export default function DomNodes({ children, style, handler }) {
 			Node.current = target; // je définis la propriété current de l'objet node à event.target(l'élément sur lequel j'ai cliqué)
 			setCurrentNode(target); // je met à jour l'état du noeud (node) actif : Déclenche un nouveau rendu
 			//setNodeStyle(targetStyle); // Je met à jour l'état des style : en React ceci déclenche un nouveau Rendu
-			handler(target);
+			handler(target, getNodeStyle(target));
 		};
 	}
 
-	if (style) {
-		Object.assign(Node.current.style, style);
-	}
 	return (
-		<span onMouseOver={mouseOverHandler} ref={inspector} className={css.inspector}>
+		<span onMouseOver={mouseOverHandler} ref={inspector} className={css.canva}>
 			{children}
 		</span>
 	);
 }
 
-function uninspect(node) {
-	console.lgo(node);
+function uninspectSize(node, nodeId) {
+	const marker = document.getElementById(`marker-${nodeId}`);
+
+	if (!marker) return;
+	marker.remove();
 }
-function inspectSize(node) {
+function inspectSize(node, nodeId) {
 	const gap = 16;
 	node.setAttribute("node-inspector-active", "");
 	const { width, height, top, bottom, left, right } = node.getBoundingClientRect();
@@ -63,11 +70,12 @@ function inspectSize(node) {
 	const y = top + height + gap / 2;
 	const value = `${width} x ${height}`;
 
-	createMarker(x, y, value);
+	createMarker(x, y, value, nodeId);
 }
 
-function createMarker(x, y, value) {
+function createMarker(x, y, value, id) {
 	const marker = document.createElement("marker");
+	marker.id = "marker-" + id;
 	marker.classList.add(css.marker);
 	marker.textContent = value;
 	marker.style.left = x + "px";
